@@ -83,6 +83,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""ebbd8cd2-9742-4365-81b0-7c08f282ddae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -118,6 +127,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fbdf0618-7cfb-4cf9-b284-330aefb066a9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -131,6 +151,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Duck
         m_Duck = asset.FindActionMap("Duck", throwIfNotFound: true);
         m_Duck_Movement = m_Duck.FindAction("Movement", throwIfNotFound: true);
+        m_Duck_Jump = m_Duck.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -232,11 +253,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Duck;
     private IDuckActions m_DuckActionsCallbackInterface;
     private readonly InputAction m_Duck_Movement;
+    private readonly InputAction m_Duck_Jump;
     public struct DuckActions
     {
         private @PlayerControls m_Wrapper;
         public DuckActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Duck_Movement;
+        public InputAction @Jump => m_Wrapper.m_Duck_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Duck; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -249,6 +272,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_DuckActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_DuckActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_DuckActionsCallbackInterface.OnMovement;
+                @Jump.started -= m_Wrapper.m_DuckActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_DuckActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_DuckActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_DuckActionsCallbackInterface = instance;
             if (instance != null)
@@ -256,6 +282,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -268,5 +297,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IDuckActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

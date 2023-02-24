@@ -14,6 +14,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private bool _isFacingRight;
 
+    private Rigidbody2D _rb;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+    }
+
     private void Start()
     {
         if (_arm.localEulerAngles.z < 90 || (_arm.localEulerAngles.z > 270 && _arm.localEulerAngles.z < 360))
@@ -25,11 +32,14 @@ public class PlayerController : MonoBehaviour
             _isFacingRight = false;
             _spriteController.FlipWeaponSprite();
         }
+        _spriteController.SetIsFacingRightAnimatorParameter(_isFacingRight);
     }
 
     void Update()
     {
         Aim();
+        Walk();
+        Jump();
     }
 
     private void Aim()
@@ -41,6 +51,28 @@ public class PlayerController : MonoBehaviour
             Debug.Log("EULER: " + _arm.localEulerAngles.z);
             Debug.Log("Mouse Pos: " + InputProcessor.Instance.GetMousePosition());
         }
+    }
+
+    private void Jump()
+    {
+        if (InputProcessor.Instance.JumpButtonPressed())
+        {
+            _rb.AddForce(Vector2.up * _settings._jumpImpulse, ForceMode2D.Impulse);
+        }
+    }
+
+    private void Walk()
+    {
+        Vector2 _direction = InputProcessor.Instance.GetMovementDirection().normalized;
+        if (_direction.magnitude != 0)
+        {
+            _rb.velocity = new Vector2(_direction.x * _settings._playerMovementSpeedGround, _rb.velocity.y);
+        } else
+        {
+            _rb.velocity = new Vector2(0, _rb.velocity.y); ;
+        }
+        _spriteController.SetDirectionAnimatorParameter(_direction);
+        //_rb.AddForce(_direction * _walkSpeed, ForceMode2D.Force);
     }
 
     private void SetDirectionOfAim()
@@ -89,6 +121,7 @@ public class PlayerController : MonoBehaviour
         _spriteController.FlipWeaponSprite();
         _spriteController.FlipPlayerSprite();
         _isFacingRight = !_isFacingRight;
+        _spriteController.SetIsFacingRightAnimatorParameter(_isFacingRight);
     }
 
     private float GetRotationAngle()

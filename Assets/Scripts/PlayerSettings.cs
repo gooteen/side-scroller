@@ -5,5 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerSettings", menuName = "PlayerSettings")]
 public class PlayerSettings : ScriptableObject
 {
-    public float _mouseSensitivity;
+    public float _playerMovementSpeedGround;
+    public float _jumpImpulse;
 }

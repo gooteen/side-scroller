@@ -33,4 +33,9 @@ public class InputProcessor : MonoBehaviour
     {
         return _controls.Duck.Movement.ReadValue<Vector2>();
     }
+
+    public bool JumpButtonPressed()
+    {
+        return _controls.Duck.Jump.triggered;
+    }
 }
