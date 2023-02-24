@@ -44,6 +44,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RightMouseButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e6518e7-6416-4181-bee2-23087883dcbc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -66,6 +75,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MouseDelta"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d42b4bc5-6c4d-45af-b7dd-f12268dfe601"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightMouseButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -148,6 +168,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MousePosition = m_Mouse.FindAction("MousePosition", throwIfNotFound: true);
         m_Mouse_MouseDelta = m_Mouse.FindAction("MouseDelta", throwIfNotFound: true);
+        m_Mouse_RightMouseButton = m_Mouse.FindAction("RightMouseButton", throwIfNotFound: true);
         // Duck
         m_Duck = asset.FindActionMap("Duck", throwIfNotFound: true);
         m_Duck_Movement = m_Duck.FindAction("Movement", throwIfNotFound: true);
@@ -213,12 +234,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IMouseActions m_MouseActionsCallbackInterface;
     private readonly InputAction m_Mouse_MousePosition;
     private readonly InputAction m_Mouse_MouseDelta;
+    private readonly InputAction m_Mouse_RightMouseButton;
     public struct MouseActions
     {
         private @PlayerControls m_Wrapper;
         public MouseActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @MousePosition => m_Wrapper.m_Mouse_MousePosition;
         public InputAction @MouseDelta => m_Wrapper.m_Mouse_MouseDelta;
+        public InputAction @RightMouseButton => m_Wrapper.m_Mouse_RightMouseButton;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -234,6 +257,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @MouseDelta.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnMouseDelta;
                 @MouseDelta.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnMouseDelta;
                 @MouseDelta.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnMouseDelta;
+                @RightMouseButton.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnRightMouseButton;
+                @RightMouseButton.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnRightMouseButton;
+                @RightMouseButton.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnRightMouseButton;
             }
             m_Wrapper.m_MouseActionsCallbackInterface = instance;
             if (instance != null)
@@ -244,6 +270,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @MouseDelta.started += instance.OnMouseDelta;
                 @MouseDelta.performed += instance.OnMouseDelta;
                 @MouseDelta.canceled += instance.OnMouseDelta;
+                @RightMouseButton.started += instance.OnRightMouseButton;
+                @RightMouseButton.performed += instance.OnRightMouseButton;
+                @RightMouseButton.canceled += instance.OnRightMouseButton;
             }
         }
     }
@@ -293,6 +322,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMousePosition(InputAction.CallbackContext context);
         void OnMouseDelta(InputAction.CallbackContext context);
+        void OnRightMouseButton(InputAction.CallbackContext context);
     }
     public interface IDuckActions
     {

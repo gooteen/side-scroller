@@ -5,14 +5,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform _arm;
+    [SerializeField] private Transform _raycastOrigin;
     [SerializeField] private Camera _cam;
 
     [SerializeField] private SpriteController _spriteController;
     [SerializeField] private PlayerSettings _settings;
 
     [SerializeField] private float _weaponRotationLimitAngle;
+    [SerializeField] private float _groundCheckRayLength;
 
-    [SerializeField] private bool _isFacingRight;
+    private bool _isFacingRight;
+    private bool _isJumping;
+    [SerializeField] private bool _armVisible;
 
     private Rigidbody2D _rb;
 
@@ -23,6 +27,23 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _armVisible = false;
+        _armVisible = false;
+
+        _arm.gameObject.SetActive(false);
+
+        SetArmVisibility();
+        
+        if (OnTheGround())
+        {
+            _isJumping = false;
+        }
+        else
+        {
+            _isJumping = true;
+        }
+
+        
         if (_arm.localEulerAngles.z < 90 || (_arm.localEulerAngles.z > 270 && _arm.localEulerAngles.z < 360))
         {
             _isFacingRight = true;
@@ -32,14 +53,39 @@ public class PlayerController : MonoBehaviour
             _isFacingRight = false;
             _spriteController.FlipWeaponSprite();
         }
+        
+        _spriteController.SetIsJumpingAnimatorParameter(_isJumping);
         _spriteController.SetIsFacingRightAnimatorParameter(_isFacingRight);
     }
 
     void Update()
     {
-        Aim();
-        Walk();
-        Jump();
+        SetArmVisibility();
+
+        if (_armVisible)
+        {
+            Aim();
+        }
+
+        Move();
+
+        if (OnTheGround())
+        {
+            Jump();
+        }
+    }
+
+    private void SetArmVisibility()
+    {
+        if (!_armVisible && InputProcessor.Instance.RightMouseButtonPressed())
+        {
+            _armVisible = true;
+            _arm.gameObject.SetActive(true);
+        } else if (_armVisible && !InputProcessor.Instance.RightMouseButtonPressed())
+        {
+            _armVisible = false;
+            _arm.gameObject.SetActive(false);
+        }
     }
 
     private void Aim()
@@ -58,20 +104,29 @@ public class PlayerController : MonoBehaviour
         if (InputProcessor.Instance.JumpButtonPressed())
         {
             _rb.AddForce(Vector2.up * _settings._jumpImpulse, ForceMode2D.Impulse);
+            _spriteController.SetStretchAnimatorParameter();
         }
     }
 
-    private void Walk()
+    private void Move()
     {
         Vector2 _direction = InputProcessor.Instance.GetMovementDirection().normalized;
         if (_direction.magnitude != 0)
         {
             _rb.velocity = new Vector2(_direction.x * _settings._playerMovementSpeedGround, _rb.velocity.y);
+            if (!_armVisible)
+            {
+                if (_direction.x > 0 && !_isFacingRight || _direction.x < 0 && _isFacingRight)
+                {
+                    ChangeSide();
+                }
+            }
         } else
         {
             _rb.velocity = new Vector2(0, _rb.velocity.y); ;
         }
         _spriteController.SetDirectionAnimatorParameter(_direction);
+        _spriteController.SetYVelocityAnimatorParameter(_rb.velocity.y);
         //_rb.AddForce(_direction * _walkSpeed, ForceMode2D.Force);
     }
 
@@ -114,6 +169,22 @@ public class PlayerController : MonoBehaviour
                 _arm.localRotation = Quaternion.Euler(_arm.localEulerAngles.x, _arm.localEulerAngles.y, _weaponRotationLimitAngle);
             }
         }
+    }
+
+    private bool OnTheGround()
+    {
+        Debug.DrawRay(_raycastOrigin.position, Vector2.down * _groundCheckRayLength, Color.red);
+        bool _onTheGround = Physics2D.Raycast(_raycastOrigin.position, Vector2.down, _groundCheckRayLength);
+
+        if (_isJumping == true && _onTheGround == true)
+        {
+            _isJumping = false;
+            _spriteController.SetStretchAnimatorParameter();
+        } else if (_onTheGround == false )
+        {
+            _isJumping = true;
+        }
+        return _onTheGround;
     }
 
     private void ChangeSide()

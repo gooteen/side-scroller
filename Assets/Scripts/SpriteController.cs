@@ -19,6 +19,16 @@ public class SpriteController : MonoBehaviour
         
     }
 
+    public void SetYVelocityAnimatorParameter(float _yVelocity)
+    {
+        _anim.SetFloat("YVelocity", _yVelocity);
+    }
+
+    public void SetStretchAnimatorParameter()
+    {
+        _anim.SetTrigger("Stretch");
+    }
+
     public void SetDirectionAnimatorParameter(Vector2 direction)
     {
         _anim.SetFloat("Direction", direction.x);
@@ -27,6 +37,11 @@ public class SpriteController : MonoBehaviour
     public void SetIsFacingRightAnimatorParameter(bool isFacingRight)
     {
         _anim.SetBool("IsFacingRight", isFacingRight);
+    }
+
+    public void SetIsJumpingAnimatorParameter(bool isJumping)
+    {
+        _anim.SetBool("IsJumping", isJumping);
     }
 
     public void FlipWeaponSprite()
