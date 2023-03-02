@@ -6,17 +6,21 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform _arm;
     [SerializeField] private Transform _raycastOrigin;
-    [SerializeField] private Camera _cam;
 
+    [SerializeField] private Transform _bulletOriginRight;
+    [SerializeField] private Transform _bulletOriginLeft;
+
+    [SerializeField] private GunController _gun;
     [SerializeField] private SpriteController _spriteController;
     [SerializeField] private PlayerSettings _settings;
 
     [SerializeField] private float _weaponRotationLimitAngle;
     [SerializeField] private float _groundCheckRayLength;
 
-    private bool _isFacingRight;
+    [SerializeField] private bool _isFacingRight;
     private bool _isJumping;
-    [SerializeField] private bool _armVisible;
+    private bool _isAiming;
+    private bool _armVisible;
 
     private Rigidbody2D _rb;
 
@@ -28,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _armVisible = false;
-        _armVisible = false;
+        _isAiming = false;
 
         _arm.gameObject.SetActive(false);
 
@@ -47,10 +51,12 @@ public class PlayerController : MonoBehaviour
         if (_arm.localEulerAngles.z < 90 || (_arm.localEulerAngles.z > 270 && _arm.localEulerAngles.z < 360))
         {
             _isFacingRight = true;
+            _gun.SetBulletOrigin(_bulletOriginRight);
         }
         else
         {
             _isFacingRight = false;
+            _gun.SetBulletOrigin(_bulletOriginLeft);
             _spriteController.FlipWeaponSprite();
         }
         
@@ -65,8 +71,12 @@ public class PlayerController : MonoBehaviour
         if (_armVisible)
         {
             Aim();
+            if (InputProcessor.Instance.LeftMouseButtonPressed())
+            {
+                _gun.Shoot();
+            }
         }
-
+       
         Move();
 
         if (OnTheGround())
@@ -75,14 +85,55 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (InputProcessor.Instance.LeftMouseButtonPressed() && InputProcessor.Instance.RightMouseButtonPressed())
+        {
+              ApplyRecoilForce();
+        }
+    }
+
+    private void ApplyRecoilForce()
+    {
+        float xDir = 0;
+        float yDir = 0;
+
+        if (_isFacingRight)
+        {
+            xDir = -_gun.RecoilForceX;
+        } else
+        {
+            xDir = _gun.RecoilForceX;
+        }
+
+        if (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).y >= transform.position.y)
+        {
+            yDir = -_gun.RecoilForceY;
+        } else
+        {
+            yDir = _gun.RecoilForceY;
+        }
+
+        _rb.AddForce(transform.right * xDir, ForceMode2D.Force);
+        _rb.AddForce(transform.up * yDir, ForceMode2D.Force);
+    }
+
     private void SetArmVisibility()
     {
         if (!_armVisible && InputProcessor.Instance.RightMouseButtonPressed())
         {
+            if (!_isAiming)
+            {
+                _isAiming = true;
+            } 
             _armVisible = true;
             _arm.gameObject.SetActive(true);
         } else if (_armVisible && !InputProcessor.Instance.RightMouseButtonPressed())
         {
+            if (_isAiming)
+            {
+                _isAiming = false;
+            }
             _armVisible = false;
             _arm.gameObject.SetActive(false);
         }
@@ -111,9 +162,19 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         Vector2 _direction = InputProcessor.Instance.GetMovementDirection().normalized;
+        
         if (_direction.magnitude != 0)
         {
-            _rb.velocity = new Vector2(_direction.x * _settings._playerMovementSpeedGround, _rb.velocity.y);
+            if (OnTheGround())
+            {
+                _rb.velocity = new Vector2(_direction.x * _settings._playerMovementSpeedGround, _rb.velocity.y);
+            } else
+            {
+                if (!_isAiming)
+                {
+                    _rb.velocity = new Vector2(_direction.x * _settings._playerMovementSpeedGround, _rb.velocity.y);
+                }
+            }
             if (!_armVisible)
             {
                 if (_direction.x > 0 && !_isFacingRight || _direction.x < 0 && _isFacingRight)
@@ -123,7 +184,10 @@ public class PlayerController : MonoBehaviour
             }
         } else
         {
-            _rb.velocity = new Vector2(0, _rb.velocity.y); ;
+            if (OnTheGround())
+            {
+                _rb.velocity = new Vector2(0, _rb.velocity.y);
+            } 
         }
         _spriteController.SetDirectionAnimatorParameter(_direction);
         _spriteController.SetYVelocityAnimatorParameter(_rb.velocity.y);
@@ -132,11 +196,12 @@ public class PlayerController : MonoBehaviour
 
     private void SetDirectionOfAim()
     {
-        if (InputProcessor.Instance.GetMousePosition().x < Screen.width / 2)
+        if (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x < transform.position.x)
         {
             if (_isFacingRight)
             {
                 ChangeSide();
+                _gun.SetBulletOrigin(_bulletOriginLeft);
             }
 
             if (_arm.eulerAngles.z < 90 + _weaponRotationLimitAngle && _arm.localRotation.z > 0)
@@ -151,11 +216,12 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        else if (InputProcessor.Instance.GetMousePosition().x > Screen.width / 2)
+        else if (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x > transform.position.x)
         {
             if (!_isFacingRight)
             {
                 ChangeSide();
+                _gun.SetBulletOrigin(_bulletOriginRight);
             }
 
             if (_arm.eulerAngles.z < 360 - _weaponRotationLimitAngle && _arm.localRotation.z < 0)
@@ -197,7 +263,7 @@ public class PlayerController : MonoBehaviour
 
     private float GetRotationAngle()
     {
-        Vector2 _dir = InputProcessor.Instance.GetMousePosition() - new Vector2(_cam.WorldToScreenPoint(_arm.position).x, _cam.WorldToScreenPoint(_arm.position).y);
+        Vector2 _dir = InputProcessor.Instance.GetMousePosition() - new Vector2(RuntimeEntities.Instance.Camera.WorldToScreenPoint(_arm.position).x, RuntimeEntities.Instance.Camera.WorldToScreenPoint(_arm.position).y);
         float _angle = Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg;
         Debug.Log("angle: " + _angle);
         return _angle;

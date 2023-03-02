@@ -46,6 +46,19 @@ public class InputProcessor : MonoBehaviour
         }
     }
 
+    public bool LeftMouseButtonPressed()
+    {
+        if (_controls.Mouse.LeftMouseButton.phase == InputActionPhase.Performed)
+        {
+            Debug.Log("Shoot");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     /*
     private void IsRightMouseButtonPressed(InputAction.CallbackContext ctxt)
     {

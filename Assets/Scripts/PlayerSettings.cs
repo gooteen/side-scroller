@@ -6,5 +6,6 @@ using UnityEngine;
 public class PlayerSettings : ScriptableObject
 {
     public float _playerMovementSpeedGround;
+    public float _playerMovementSpeedAir;
     public float _jumpImpulse;
 }
