@@ -178,9 +178,15 @@ public class PlayerController : MonoBehaviour
             }
             if (!_armVisible)
             {
-                if (_direction.x > 0 && !_isFacingRight || _direction.x < 0 && _isFacingRight)
+                if (_direction.x > 0 && !_isFacingRight)
                 {
                     ChangeSide();
+                    _gun.SetBulletOrigin(_bulletOriginRight);
+                }
+                else if (_direction.x < 0 && _isFacingRight)
+                {
+                    ChangeSide();
+                    _gun.SetBulletOrigin(_bulletOriginLeft);
                 }
             }
         } else
