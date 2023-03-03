@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
             if (!_isAiming)
             {
                 _isAiming = true;
+                _gun.ResetReleaseTime();
             } 
             _armVisible = true;
             _arm.gameObject.SetActive(true);

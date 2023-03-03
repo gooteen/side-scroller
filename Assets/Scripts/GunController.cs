@@ -5,6 +5,8 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     [SerializeField] private Transform _bulletOrigin;
+    [SerializeField] private Transform _arm;
+    [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Rigidbody2D _playerRb;
     [SerializeField] private Animator _anim;
 
@@ -14,34 +16,47 @@ public class GunController : MonoBehaviour
     [SerializeField] private float _recoilForceX;
     [SerializeField] private float _recoilForceY;
 
+    [SerializeField] private float _timeBetweenShots;
+
+    [SerializeField] private int maxTrajectoryAngleOffset;
+
+    [SerializeField] private float _releaseTime;
+
+
+    private System.Random _rand;
+
     public float RecoilForceX { get { return _recoilForceX; }}
     public float RecoilForceY { get { return _recoilForceY; }}
 
-    private System.Random _rand;
 
     void Start()
     {
         _rand = new System.Random();
-    }
-
-    void Update()
-    {
-        
+        ResetReleaseTime();
     }
 
     public void Shoot()
     {
-        Vector2 _mousePos = InputProcessor.Instance.GetMousePosition();
-        float _xOffset = _rand.Next(0, _xBulletScatterOffset);
-        float _yOffset = _rand.Next(0, _yBulletScatterOffset);
-        Vector2 _target = new Vector2(_mousePos.x + _xOffset, _mousePos.y + _yOffset);
-        Vector2 _originOnScreen = RuntimeEntities.Instance.Camera.WorldToScreenPoint(_playerRb.gameObject.transform.position);
         _anim.Play("WeaponTremble");
-        Debug.DrawLine(_bulletOrigin.position, RuntimeEntities.Instance.Camera.ScreenToWorldPoint(_target), Color.red);
+        if (Time.time - _releaseTime >= _timeBetweenShots)
+        {
+            float rotationZ = _rand.Next(-maxTrajectoryAngleOffset, maxTrajectoryAngleOffset);
+            GameObject _bullet = Instantiate(_bulletPrefab, _bulletOrigin.position, _bulletOrigin.rotation);
+            _bullet.transform.eulerAngles = new Vector3(_arm.eulerAngles.x, _arm.eulerAngles.y, _arm.eulerAngles.z + rotationZ);
+            _releaseTime = Time.time;
+        } else
+        {
+            Debug.Log("pause");
+        }
     }
 
     public void SetBulletOrigin(Transform origin)
     {
         _bulletOrigin = origin;
+    }
+
+    public void ResetReleaseTime()
+    {
+        _releaseTime = 0;
     }
 }

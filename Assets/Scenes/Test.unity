@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 443303158}
   - component: {fileID: 443303159}
   - component: {fileID: 443303160}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeaponSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 477795609}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BulletOriginRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477795608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.676, y: 0.2224, z: 0}
+  m_LocalPosition: {x: 0.786, y: 0.2261, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1477138492}
@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 641032425}
   - component: {fileID: 641032426}
   - component: {fileID: 641032427}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,7 +575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1477138492}
   - component: {fileID: 1477138493}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -612,12 +612,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletOrigin: {fileID: 477795609}
+  _arm: {fileID: 1854942306}
+  _bulletPrefab: {fileID: 4878149465420202869, guid: 8f5e653970fd4414f983908f805e05f3,
+    type: 3}
   _playerRb: {fileID: 1850738269}
   _anim: {fileID: 443303160}
   _xBulletScatterOffset: 40
   _yBulletScatterOffset: 40
   _recoilForceX: 5
   _recoilForceY: 15
+  _timeBetweenShots: 0.05
+  maxTrajectoryAngleOffset: 10
+  _releaseTime: 0
 --- !u!1 &1850738267
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,7 +636,7 @@ GameObject:
   - component: {fileID: 1850738270}
   - component: {fileID: 1850738269}
   - component: {fileID: 1850738268}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -722,7 +728,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1854942306}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -753,7 +759,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1947475654}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BulletOriginLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -768,7 +774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947475653}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.676, y: -0.223, z: 0}
+  m_LocalPosition: {x: 0.786, y: -0.2264, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1477138492}
@@ -783,7 +789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2020273588}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RaycastOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
