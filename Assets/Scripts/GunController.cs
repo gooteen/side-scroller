@@ -9,6 +9,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Rigidbody2D _playerRb;
     [SerializeField] private Animator _anim;
+    [SerializeField] private Animator _effectAnim;
 
     [SerializeField] private int _xBulletScatterOffset;
     [SerializeField] private int _yBulletScatterOffset;
@@ -21,7 +22,6 @@ public class GunController : MonoBehaviour
     [SerializeField] private int maxTrajectoryAngleOffset;
 
     [SerializeField] private float _releaseTime;
-
 
     private System.Random _rand;
 
@@ -38,6 +38,7 @@ public class GunController : MonoBehaviour
     public void Shoot()
     {
         _anim.Play("WeaponTremble");
+        _effectAnim.Play("Flash");
         if (Time.time - _releaseTime >= _timeBetweenShots)
         {
             float rotationZ = _rand.Next(-maxTrajectoryAngleOffset, maxTrajectoryAngleOffset);
@@ -53,6 +54,7 @@ public class GunController : MonoBehaviour
     public void SetBulletOrigin(Transform origin)
     {
         _bulletOrigin = origin;
+        _effectAnim.transform.position = origin.position;
     }
 
     public void ResetReleaseTime()
