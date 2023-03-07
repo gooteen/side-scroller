@@ -5,7 +5,6 @@ using UnityEngine;
 public class RuntimeEntities : MonoBehaviour
 {
     [SerializeField] private Camera _cam;
-
     public static RuntimeEntities Instance
     {
         get; private set;

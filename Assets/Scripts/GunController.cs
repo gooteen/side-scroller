@@ -10,6 +10,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private Rigidbody2D _playerRb;
     [SerializeField] private Animator _anim;
     [SerializeField] private Animator _effectAnim;
+    [SerializeField] private ParticleSystem _smokeEffect;
 
     [SerializeField] private int _xBulletScatterOffset;
     [SerializeField] private int _yBulletScatterOffset;
@@ -23,14 +24,29 @@ public class GunController : MonoBehaviour
 
     [SerializeField] private float _releaseTime;
 
+    [SerializeField] private float _overheatValue;
+    [SerializeField] private float _currentHeatValue;
+
+    [SerializeField] private float _colorChangeStep;
+
+    [SerializeField] private float _timeToEmitSmokeFor;
+
+    private Coroutine _currentSmokeEffectCoroutine;
+    private ParticleSystem.EmissionModule _smokeEffectEmission;
+    private SpriteRenderer _rend;
+    private bool _overheated;
     private System.Random _rand;
 
+    public bool Overheated { get { return _overheated; }}
     public float RecoilForceX { get { return _recoilForceX; }}
     public float RecoilForceY { get { return _recoilForceY; }}
 
 
     void Start()
     {
+        _smokeEffectEmission = _smokeEffect.emission;
+        _rend = _anim.GetComponent<SpriteRenderer>();
+        _currentHeatValue = 0;
         _rand = new System.Random();
         ResetReleaseTime();
     }
@@ -45,20 +61,85 @@ public class GunController : MonoBehaviour
             GameObject _bullet = Instantiate(_bulletPrefab, _bulletOrigin.position, _bulletOrigin.rotation);
             _bullet.transform.eulerAngles = new Vector3(_arm.eulerAngles.x, _arm.eulerAngles.y, _arm.eulerAngles.z + rotationZ);
             _releaseTime = Time.time;
-        } else
+        } 
+    }
+
+    public void DecreaseHeat(float _step)
+    {
+        _currentHeatValue -= _step * Time.deltaTime;
+
+        if (_currentHeatValue < 0) 
         {
-            Debug.Log("pause");
+            _currentHeatValue = 0;
+            if (_overheated)
+            {
+                ToggleOverheatedValue();
+                UIController.Instance.ChangeScaleColor(UIController.ScaleColor.Normal);
+            }
         }
+        _rend.color = new Color(_rend.color.r, _rend.color.g + _colorChangeStep * Time.deltaTime, _rend.color.b + _colorChangeStep* Time.deltaTime);
+        if (_rend.color.g >= 1)
+        {
+            _rend.color = new Color(_rend.color.r, 1, 1);
+        }
+        UIController.Instance.UpdateScaleFillAmount(_currentHeatValue / _overheatValue);
+    }
+
+    public void IncreaseHeat(float _step)
+    {
+        _currentHeatValue += _step * Time.deltaTime;
+        if (_currentHeatValue >= _overheatValue)
+        {
+            _currentHeatValue = _overheatValue;
+            if (!_overheated)
+            {
+                ToggleOverheatedValue();
+                UIController.Instance.ChangeScaleColor(UIController.ScaleColor.Red);
+            }
+        }
+        _rend.color = new Color(_rend.color.r, _rend.color.g - _colorChangeStep * Time.deltaTime, _rend.color.b - _colorChangeStep * Time.deltaTime);
+        Debug.Log("DAA " + _rend.color.g + " " + _rend.color.b);
+        if (_rend.color.g <= 0)
+        {
+            _rend.color = new Color(_rend.color.r, 0, 0);
+        }
+        UIController.Instance.UpdateScaleFillAmount(_currentHeatValue / _overheatValue);
+
+    }
+
+    public void ToggleOverheatedValue()
+    {
+        _overheated = !_overheated;
     }
 
     public void SetBulletOrigin(Transform origin)
     {
         _bulletOrigin = origin;
         _effectAnim.transform.position = origin.position;
+        _smokeEffect.transform.position = origin.position;
     }
 
     public void ResetReleaseTime()
     {
         _releaseTime = 0;
+    }
+
+    public void StartEmittingSmoke()
+    {
+        _currentSmokeEffectCoroutine = StartCoroutine("EmitSmoke");
+    }
+
+    public void StopEmittingSmoke()
+    {
+        _smokeEffectEmission.enabled = false;
+        StopCoroutine("EmitSmoke");
+        _currentSmokeEffectCoroutine = null;
+    }
+
+    private IEnumerator EmitSmoke()
+    {
+        _smokeEffectEmission.enabled = true;
+        yield return new WaitForSeconds(_timeToEmitSmokeFor);
+        _smokeEffectEmission.enabled = false;
     }
 }

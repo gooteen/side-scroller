@@ -17,10 +17,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _weaponRotationLimitAngle;
     [SerializeField] private float _groundCheckRayLength;
 
+    [SerializeField] private float _timeToCooldown;
+
     [SerializeField] private bool _isFacingRight;
+
+    [SerializeField] private float _heatUpStepPerFrame = 0.1f;
+    [SerializeField] private float _heatDownStepPerFrame = 0.1f;
+
+    [SerializeField] private bool _isShooting;
     private bool _isJumping;
     private bool _isAiming;
     private bool _armVisible;
+    
+    private float _coolDownStartTime;
 
     private Rigidbody2D _rb;
 
@@ -31,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _isShooting = false;
         _armVisible = false;
         _isAiming = false;
 
@@ -71,12 +81,37 @@ public class PlayerController : MonoBehaviour
         if (_armVisible)
         {
             Aim();
-            if (InputProcessor.Instance.LeftMouseButtonPressed())
+            if (!_gun.Overheated)
             {
-                _gun.Shoot();
+                if (InputProcessor.Instance.LeftMouseButtonPressed())
+                {
+                    _gun.StopEmittingSmoke();
+                    _isShooting = true;
+                    _gun.Shoot();
+                    _gun.IncreaseHeat(_heatUpStepPerFrame);
+
+                }
+                else
+                {
+                    if (_isShooting)
+                    {
+                        _gun.StartEmittingSmoke();
+                        _isShooting = false;
+                    }
+                }
+            } else
+            {
+                _gun.StartEmittingSmoke();
+                _isShooting = false;
             }
         }
-       
+
+        if (!_isShooting)
+        {
+            _gun.DecreaseHeat(_heatDownStepPerFrame);
+            Debug.Log("DECREASE!!");
+        }
+
         Move();
 
         if (OnTheGround())
@@ -87,9 +122,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (InputProcessor.Instance.LeftMouseButtonPressed() && InputProcessor.Instance.RightMouseButtonPressed())
+        if (!_gun.Overheated)
         {
-              ApplyRecoilForce();
+            if (InputProcessor.Instance.LeftMouseButtonPressed() && InputProcessor.Instance.RightMouseButtonPressed())
+            {
+
+                ApplyRecoilForce();
+            }
         }
     }
 
@@ -133,6 +172,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_isAiming)
             {
+                _gun.StopEmittingSmoke();
                 _isAiming = false;
             }
             _armVisible = false;
