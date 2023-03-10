@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public enum ScaleColor { Red, Normal };
-    [SerializeField] Image _scale;
+    [SerializeField] private Image _scale;
+    [SerializeField] private Texture2D _crosshair;
+    [SerializeField] private Vector2 _crosshairHotspot;
+
     private Color _scaleNormalColor;
 
     public static UIController Instance
@@ -16,12 +19,18 @@ public class UIController : MonoBehaviour
 
     private void Awake()
     {
+        SetCrosshair();
         Instance = this;
     }
 
     void Start()
     {
         _scaleNormalColor = _scale.color;
+    }
+
+    public void SetCrosshair()
+    {
+        Cursor.SetCursor(_crosshair, _crosshairHotspot, CursorMode.Auto);
     }
 
     public void UpdateScaleFillAmount(float value)
