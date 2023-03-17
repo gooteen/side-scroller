@@ -8,4 +8,5 @@ public class PlayerSettings : ScriptableObject
     public float _playerMovementSpeedGround;
     public float _playerMovementSpeedAir;
     public float _jumpImpulse;
+    public float _bulletDamage;
 }
