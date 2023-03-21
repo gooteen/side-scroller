@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private bool _isFacingRight;
 
+    [SerializeField] private float _maxHealth;
+
     [SerializeField] private float _heatUpStepPerFrame = 0.1f;
     [SerializeField] private float _heatDownStepPerFrame = 0.1f;
 
@@ -30,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private bool _armVisible;
     
     private float _coolDownStartTime;
+    private float _currentHealth;
 
     private Rigidbody2D _rb;
 
@@ -40,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _currentHealth = _maxHealth;
         _isShooting = false;
         _armVisible = false;
         _isAiming = false;
@@ -118,6 +122,11 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        _currentHealth -= damage;
     }
 
     private void FixedUpdate()

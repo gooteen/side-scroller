@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _lifespan;
 
+    [SerializeField] private GameObject _impactEffect;
+
     [SerializeField] private float _timeBeforeTrail;
     private Rigidbody2D _rb;
     private ParticleSystem _ps;
@@ -50,6 +52,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        GameObject _effect = Instantiate(_impactEffect);
+        _effect.transform.position = collision.GetContact(0).point;
         Destroy(gameObject);
     }
 }
