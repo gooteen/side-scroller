@@ -14,9 +14,9 @@ public class SpriteController : MonoBehaviour
         _playerRenderer = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    public void SetOnTheGroundAnimatorParameter(bool _grounded)
     {
-        
+        _anim.SetBool("OnTheGround", _grounded);
     }
 
     public void SetYVelocityAnimatorParameter(float _yVelocity)

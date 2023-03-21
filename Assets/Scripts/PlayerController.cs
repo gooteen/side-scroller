@@ -312,6 +312,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.DrawRay(_raycastOrigin.position, Vector2.down * _groundCheckRayLength, Color.red);
         bool _onTheGround = Physics2D.Raycast(_raycastOrigin.position, Vector2.down, _groundCheckRayLength);
+        _spriteController.SetOnTheGroundAnimatorParameter(_onTheGround);
         Debug.Log("ontheground:"  + _onTheGround);
         if (_isJumping == true && _onTheGround == true)
         {
