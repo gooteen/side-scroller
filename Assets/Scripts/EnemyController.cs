@@ -8,6 +8,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float _fadeRate;
     [SerializeField] private EnemySpriteController _sprite;
     [SerializeField] private float _totalEnemyHealth;
+    [SerializeField] private GameObject _coinPrefab;
+    [SerializeField] private int _numberOfCoinsToSprinkle;
+    [SerializeField] private float _coinPushForce;
+    [SerializeField] private float _secondsBetweenCoins = 0.1f;
 
     private float _currentEnemyHealth;
     private NavMeshAgent _ai;
@@ -84,11 +88,25 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator Fade()
     {
+        StartCoroutine("SprinkleCoins");
         while (_sprite.Sprite.color.a >= 0.01)
         {
             Debug.Log("DA");
             _sprite.Sprite.color = new Color(_sprite.Sprite.color.r, _sprite.Sprite.color.g, _sprite.Sprite.color.b, _sprite.Sprite.color.a - _fadeRate * Time.deltaTime);
             yield return new WaitForEndOfFrame();
+        }
+    }
+
+    private IEnumerator SprinkleCoins()
+    {
+        int _counter = _numberOfCoinsToSprinkle;
+        while (_counter > 0)
+        {
+            GameObject _coin = Instantiate(_coinPrefab);
+            _coin.transform.position = transform.position;
+            _coin.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(0.5f, 1)).normalized * _coinPushForce, ForceMode2D.Impulse);
+            _counter -= 1;
+            yield return new WaitForSeconds(_secondsBetweenCoins);
         }
         Destroy(gameObject);
     }

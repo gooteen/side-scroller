@@ -188,6 +188,11 @@ MonoBehaviour:
   _fadeRate: 1
   _sprite: {fileID: 5769125831594491485}
   _totalEnemyHealth: 5
+  _coinPrefab: {fileID: 2318873716559422590, guid: 45baefed2833bb14e88e13d10774c3a8,
+    type: 3}
+  _numberOfCoinsToSprinkle: 5
+  _coinPushForce: 10
+  _secondsBetweenCoins: 0.1
 --- !u!58 &3119643853012564904
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -216,7 +221,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 8
   m_LinearDrag: 2
   m_AngularDrag: 1
   m_GravityScale: 0

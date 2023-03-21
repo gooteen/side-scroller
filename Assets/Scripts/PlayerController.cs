@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool _isFacingRight;
 
     [SerializeField] private float _maxHealth;
+    [SerializeField] private int _currentPointCount;
 
     [SerializeField] private float _heatUpStepPerFrame = 0.1f;
     [SerializeField] private float _heatDownStepPerFrame = 0.1f;
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _currentPointCount = 0;
         _currentHealth = _maxHealth;
         _isShooting = false;
         _armVisible = false;
@@ -125,6 +127,11 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    public void AddPoint()
+    {
+        _currentPointCount += 1;
     }
 
     public void PushRb(Vector2 dir, float force)
@@ -305,7 +312,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.DrawRay(_raycastOrigin.position, Vector2.down * _groundCheckRayLength, Color.red);
         bool _onTheGround = Physics2D.Raycast(_raycastOrigin.position, Vector2.down, _groundCheckRayLength);
-
+        Debug.Log("ontheground:"  + _onTheGround);
         if (_isJumping == true && _onTheGround == true)
         {
             _isJumping = false;
