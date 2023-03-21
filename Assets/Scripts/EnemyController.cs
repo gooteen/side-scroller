@@ -40,14 +40,17 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!_isDead)
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Player"))
         {
-            TakeDamage();
             if (!_isDead)
             {
-                StartCoroutine("OnImpact");
+                TakeDamage();
+                if (!_isDead)
+                {
+                    StartCoroutine("OnImpact");
+                }
+                _sprite.Animator.Play("Impact");
             }
-            _sprite.Animator.Play("Impact");
         }
     }
 

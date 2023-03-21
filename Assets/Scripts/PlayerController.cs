@@ -108,6 +108,9 @@ public class PlayerController : MonoBehaviour
                 _gun.StartEmittingSmoke();
                 _isShooting = false;
             }
+        } else
+        {
+            _isShooting = false;
         }
 
         if (!_isShooting)
@@ -122,6 +125,11 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    public void PushRb(Vector2 dir, float force)
+    {
+        _rb.AddForce(dir.normalized * force, ForceMode2D.Impulse);
     }
 
     public void TakeDamage(float damage)
