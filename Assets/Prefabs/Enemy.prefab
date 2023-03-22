@@ -193,6 +193,7 @@ MonoBehaviour:
   _numberOfCoinsToSprinkle: 5
   _coinPushForce: 10
   _secondsBetweenCoins: 0.1
+  _damageField: {fileID: 3119643853792193782}
 --- !u!58 &3119643853012564904
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -275,9 +276,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.15, y: 0}
+  m_Offset: {x: -0.15, y: 0.11}
   serializedVersion: 2
-  m_Radius: 1.13
+  m_Radius: 1.44
 --- !u!114 &3119643853792193777
 MonoBehaviour:
   m_ObjectHideFlags: 0

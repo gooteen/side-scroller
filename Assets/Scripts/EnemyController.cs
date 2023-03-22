@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int _numberOfCoinsToSprinkle;
     [SerializeField] private float _coinPushForce;
     [SerializeField] private float _secondsBetweenCoins = 0.1f;
+    [SerializeField] private GameObject _damageField;
 
     private float _currentEnemyHealth;
     private NavMeshAgent _ai;
@@ -83,6 +84,7 @@ public class EnemyController : MonoBehaviour
         _rb.gravityScale = 1;
         _rb.freezeRotation = false;
         transform.rotation = new Quaternion(0,0,0,0);
+        _damageField.SetActive(false);
         StartCoroutine("Fade");
     }
 

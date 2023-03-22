@@ -74,7 +74,7 @@ public class GunController : MonoBehaviour
             if (_overheated)
             {
                 ToggleOverheatedValue();
-                UIController.Instance.ChangeScaleColor(UIController.ScaleColor.Normal);
+                UIController.Instance.ChangeHeatScaleColor(UIController.ScaleColor.Normal);
             }
         }
         _rend.color = new Color(_rend.color.r, _rend.color.g + _colorChangeStep * Time.deltaTime, _rend.color.b + _colorChangeStep* Time.deltaTime);
@@ -82,7 +82,7 @@ public class GunController : MonoBehaviour
         {
             _rend.color = new Color(_rend.color.r, 1, 1);
         }
-        UIController.Instance.UpdateScaleFillAmount(_currentHeatValue / _overheatValue);
+        UIController.Instance.UpdateHeatScaleFillAmount(_currentHeatValue / _overheatValue);
     }
 
     public void IncreaseHeat(float _step)
@@ -94,7 +94,7 @@ public class GunController : MonoBehaviour
             if (!_overheated)
             {
                 ToggleOverheatedValue();
-                UIController.Instance.ChangeScaleColor(UIController.ScaleColor.Red);
+                UIController.Instance.ChangeHeatScaleColor(UIController.ScaleColor.Red);
             }
         }
         _rend.color = new Color(_rend.color.r, _rend.color.g - _colorChangeStep * Time.deltaTime, _rend.color.b - _colorChangeStep * Time.deltaTime);
@@ -103,7 +103,7 @@ public class GunController : MonoBehaviour
         {
             _rend.color = new Color(_rend.color.r, 0, 0);
         }
-        UIController.Instance.UpdateScaleFillAmount(_currentHeatValue / _overheatValue);
+        UIController.Instance.UpdateHeatScaleFillAmount(_currentHeatValue / _overheatValue);
 
     }
 

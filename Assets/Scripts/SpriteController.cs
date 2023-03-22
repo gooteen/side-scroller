@@ -14,6 +14,11 @@ public class SpriteController : MonoBehaviour
         _playerRenderer = GetComponent<SpriteRenderer>();
     }
 
+    public void PlayDamageImpactAnimation()
+    {
+        _anim.Play("DamageImpactPlayer");
+    }
+
     public void SetOnTheGroundAnimatorParameter(bool _grounded)
     {
         _anim.SetBool("OnTheGround", _grounded);

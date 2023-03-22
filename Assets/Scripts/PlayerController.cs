@@ -37,6 +37,11 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
 
+    public SpriteController Sprite
+    {
+        get { return _spriteController; }
+    }
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -46,6 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         _currentPointCount = 0;
         _currentHealth = _maxHealth;
+        UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
         _isShooting = false;
         _armVisible = false;
         _isAiming = false;
@@ -142,6 +148,7 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
+        UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
     }
 
     private void FixedUpdate()

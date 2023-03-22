@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public enum ScaleColor { Red, Normal };
-    [SerializeField] private Image _scale;
+    [SerializeField] private Image _heatScale;
+    [SerializeField] private Image _healthScale;
     [SerializeField] private Texture2D _crosshair;
     [SerializeField] private Vector2 _crosshairHotspot;
 
@@ -25,7 +26,7 @@ public class UIController : MonoBehaviour
 
     void Start()
     {
-        _scaleNormalColor = _scale.color;
+        _scaleNormalColor = _heatScale.color;
     }
 
     public void SetCrosshair()
@@ -33,19 +34,24 @@ public class UIController : MonoBehaviour
         Cursor.SetCursor(_crosshair, _crosshairHotspot, CursorMode.Auto);
     }
 
-    public void UpdateScaleFillAmount(float value)
+    public void UpdateHeatScaleFillAmount(float value)
     {
-        _scale.fillAmount = value;
+        _heatScale.fillAmount = value;
     }
 
-    public void ChangeScaleColor(ScaleColor color)
+    public void UpdateHealthScaleFillAmount(float value)
+    {
+        _healthScale.fillAmount = value;
+    }
+
+    public void ChangeHeatScaleColor(ScaleColor color)
     {
         if (color == ScaleColor.Red)
         {
-            _scale.color = Color.red;
+            _heatScale.color = Color.red;
         } else
         {
-            _scale.color = _scaleNormalColor;
+            _heatScale.color = _scaleNormalColor;
         }
     }
 }
