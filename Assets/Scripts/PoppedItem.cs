@@ -6,6 +6,8 @@ public class PoppedItem : MonoBehaviour
 {
     [SerializeField] private float _delayValue;
     [SerializeField] private float _pullForce;
+    [SerializeField] private float _distanceToPlayer;
+
     private Rigidbody2D _rb;
     private bool _absorbable;
     private bool _pullTowardsPlayer;
@@ -16,6 +18,18 @@ public class PoppedItem : MonoBehaviour
         _absorbable = false;
         _pullTowardsPlayer = false;
         StartCoroutine("Delay");
+    }
+
+    private void Update()
+    {
+        if ((RuntimeEntities.Instance.Player.transform.position - transform.position).magnitude <= _distanceToPlayer)
+        {
+            if (_absorbable)
+            {
+                RuntimeEntities.Instance.Player.AddPoint();
+                Destroy(gameObject);
+            }
+        }
     }
 
     void FixedUpdate()
@@ -34,9 +48,14 @@ public class PoppedItem : MonoBehaviour
         _rb.gravityScale = 0;
     }
 
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        RuntimeEntities.Instance.Player.AddPoint();
-        Destroy(gameObject);
+        if (_absorbable)
+        {
+            RuntimeEntities.Instance.Player.AddPoint();
+            Destroy(gameObject);
+        }
     }
+    */
 }
