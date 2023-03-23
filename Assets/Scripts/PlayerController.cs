@@ -39,6 +39,11 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
 
+    public GunController Gun
+    {
+        get { return _gun; }
+    }
+
     public SpriteController Sprite
     {
         get { return _spriteController; }

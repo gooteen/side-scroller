@@ -27,8 +27,6 @@ public class GunController : MonoBehaviour
     [SerializeField] private float _overheatValue;
     [SerializeField] private float _currentHeatValue;
 
-    [SerializeField] private float _colorChangeStep;
-
     [SerializeField] private float _timeToEmitSmokeFor;
 
     private Coroutine _currentSmokeEffectCoroutine;
@@ -64,6 +62,20 @@ public class GunController : MonoBehaviour
         } 
     }
 
+    public void TakeAwayHeat(float _amount)
+    {
+        _currentHeatValue -= _amount;
+        if (_currentHeatValue < 0)
+        {
+            _currentHeatValue = 0;
+            if (_overheated)
+            {
+                ToggleOverheatedValue();
+                UIController.Instance.ChangeHeatScaleColor(UIController.ScaleColor.Normal);
+            }
+        }
+    }
+
     public void DecreaseHeat(float _step)
     {
         _currentHeatValue -= _step * Time.deltaTime;
@@ -77,7 +89,7 @@ public class GunController : MonoBehaviour
                 UIController.Instance.ChangeHeatScaleColor(UIController.ScaleColor.Normal);
             }
         }
-        _rend.color = new Color(_rend.color.r, _rend.color.g + _colorChangeStep * Time.deltaTime, _rend.color.b + _colorChangeStep* Time.deltaTime);
+        _rend.color = new Color(_rend.color.r, (1 - _currentHeatValue/ _overheatValue), (1 - _currentHeatValue / _overheatValue));
         if (_rend.color.g >= 1)
         {
             _rend.color = new Color(_rend.color.r, 1, 1);
@@ -97,7 +109,7 @@ public class GunController : MonoBehaviour
                 UIController.Instance.ChangeHeatScaleColor(UIController.ScaleColor.Red);
             }
         }
-        _rend.color = new Color(_rend.color.r, _rend.color.g - _colorChangeStep * Time.deltaTime, _rend.color.b - _colorChangeStep * Time.deltaTime);
+        _rend.color = new Color(_rend.color.r, (1 - _currentHeatValue / _overheatValue), (1 - _currentHeatValue / _overheatValue));
         Debug.Log("DAA " + _rend.color.g + " " + _rend.color.b);
         if (_rend.color.g <= 0)
         {
