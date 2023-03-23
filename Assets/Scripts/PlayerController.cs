@@ -169,6 +169,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Heal(float amount)
+    {
+        _currentHealth += amount;
+        if (_currentHealth > _maxHealth)
+        {
+            _currentHealth = _maxHealth;
+        }
+        UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
+    }
+
     public void Die()
     {
         _spriteController.SetDeathTrigger();
@@ -319,7 +329,6 @@ public class PlayerController : MonoBehaviour
 
             if (_arm.eulerAngles.z > 270 - _weaponRotationLimitAngle && _arm.localRotation.z < 0)
             {
-                Debug.Log("Hey2: " + _arm.eulerAngles.z + " > " + _weaponRotationLimitAngle + "&&" + _arm.rotation.z + " > 0");
                 _arm.localRotation = Quaternion.Euler(_arm.localEulerAngles.x, _arm.localEulerAngles.y, 270 - _weaponRotationLimitAngle);
             }
         }
@@ -339,7 +348,6 @@ public class PlayerController : MonoBehaviour
 
             if (_arm.eulerAngles.z > _weaponRotationLimitAngle && _arm.localRotation.z > 0)
             {
-                Debug.Log("Hey2: " + _arm.eulerAngles.z + " > " + _weaponRotationLimitAngle + "&&" + _arm.rotation.z + " > 0");
                 _arm.localRotation = Quaternion.Euler(_arm.localEulerAngles.x, _arm.localEulerAngles.y, _weaponRotationLimitAngle);
             }
         }

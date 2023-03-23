@@ -9,10 +9,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private EnemySpriteController _sprite;
     [SerializeField] private float _totalEnemyHealth;
     [SerializeField] private GameObject _coinPrefab;
-    [SerializeField] private int _numberOfCoinsToSprinkle;
+    [SerializeField] private GameObject _healerPrefab;
+    [SerializeField] private int _numberOfItemsToSprinkle;
     [SerializeField] private float _coinPushForce;
     [SerializeField] private float _secondsBetweenCoins = 0.1f;
     [SerializeField] private GameObject _damageField;
+    [SerializeField] private int _healerDropProbability;
 
     private float _currentEnemyHealth;
     private NavMeshAgent _ai;
@@ -101,15 +103,35 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator SprinkleCoins()
     {
-        int _counter = _numberOfCoinsToSprinkle;
+        int _counter = _numberOfItemsToSprinkle;
         while (_counter > 0)
         {
-            GameObject _coin = Instantiate(_coinPrefab);
-            _coin.transform.position = transform.position;
-            _coin.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(0.5f, 1)).normalized * _coinPushForce, ForceMode2D.Impulse);
+            GameObject _item;
+            if (DropHealer())
+            {
+               _item = Instantiate(_healerPrefab);
+            } else
+            {
+                _item = Instantiate(_coinPrefab);
+            }
+
+            _item.transform.position = transform.position;
+            _item.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(0.5f, 1)).normalized * _coinPushForce, ForceMode2D.Impulse);
             _counter -= 1;
             yield return new WaitForSeconds(_secondsBetweenCoins);
         }
         Destroy(gameObject);
+    }
+
+    private bool DropHealer()
+    {
+        int _param = Random.Range(0, 100);
+        if (_param <= _healerDropProbability)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 }

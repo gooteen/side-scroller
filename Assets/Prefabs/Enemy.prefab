@@ -190,10 +190,13 @@ MonoBehaviour:
   _totalEnemyHealth: 5
   _coinPrefab: {fileID: 2318873716559422590, guid: 45baefed2833bb14e88e13d10774c3a8,
     type: 3}
-  _numberOfCoinsToSprinkle: 5
+  _healerPrefab: {fileID: 7831778113351672476, guid: 3b2d15b4144e59549a2b09a15f58fade,
+    type: 3}
+  _numberOfItemsToSprinkle: 5
   _coinPushForce: 10
   _secondsBetweenCoins: 0.1
   _damageField: {fileID: 3119643853792193782}
+  _healerDropProbability: 5
 --- !u!58 &3119643853012564904
 CircleCollider2D:
   m_ObjectHideFlags: 0

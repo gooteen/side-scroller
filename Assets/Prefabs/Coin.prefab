@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 2318873716559422584}
   - component: {fileID: 2318873716559422591}
   - component: {fileID: 2318873716559422585}
-  - component: {fileID: 2897280176984520485}
+  - component: {fileID: -5249777663045695766}
   m_Layer: 11
   m_Name: Coin
   m_TagString: Untagged
@@ -148,8 +148,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 10
-  m_AngularDrag: 50
+  m_LinearDrag: 1
+  m_AngularDrag: 1
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -172,7 +172,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.32
---- !u!114 &2897280176984520485
+--- !u!114 &-5249777663045695766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,9 +181,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2318873716559422590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e89394f2fa7050d419d80e442674c035, type: 3}
+  m_Script: {fileID: 11500000, guid: eb27f66b29a3d0f4ead826ed29fc418d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayValue: 0.1
-  _pullForce: 300
+  _delayValue: 0.25
+  _pullForce: 80
   _distanceToPlayer: 9
