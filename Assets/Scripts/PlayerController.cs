@@ -28,9 +28,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _heatDownStepPerFrame = 0.1f;
 
     [SerializeField] private bool _isShooting;
+    private CapsuleCollider2D _col;
     private bool _isJumping;
     private bool _isAiming;
     private bool _armVisible;
+    private bool _alive;
     
     private float _coolDownStartTime;
     private float _currentHealth;
@@ -45,10 +47,12 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _col = GetComponent<CapsuleCollider2D>();
     }
 
     private void Start()
     {
+        _alive = true;
         _currentPointCount = 0;
         _currentHealth = _maxHealth;
         UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
@@ -88,50 +92,55 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        SetArmVisibility();
-
-        if (_armVisible)
+        if (_alive)
         {
-            Aim();
-            if (!_gun.Overheated)
-            {
-                if (InputProcessor.Instance.LeftMouseButtonPressed())
-                {
-                    _gun.StopEmittingSmoke();
-                    _isShooting = true;
-                    _gun.Shoot();
-                    _gun.IncreaseHeat(_heatUpStepPerFrame);
+            SetArmVisibility();
 
+            if (_armVisible)
+            {
+                Aim();
+                if (!_gun.Overheated)
+                {
+                    if (InputProcessor.Instance.LeftMouseButtonPressed())
+                    {
+                        _gun.StopEmittingSmoke();
+                        _isShooting = true;
+                        _gun.Shoot();
+                        _gun.IncreaseHeat(_heatUpStepPerFrame);
+
+                    }
+                    else
+                    {
+                        if (_isShooting)
+                        {
+                            _gun.StartEmittingSmoke();
+                            _isShooting = false;
+                        }
+                    }
                 }
                 else
                 {
-                    if (_isShooting)
-                    {
-                        _gun.StartEmittingSmoke();
-                        _isShooting = false;
-                    }
+                    _gun.StartEmittingSmoke();
+                    _isShooting = false;
                 }
-            } else
+            }
+            else
             {
-                _gun.StartEmittingSmoke();
                 _isShooting = false;
             }
-        } else
-        {
-            _isShooting = false;
-        }
 
-        if (!_isShooting)
-        {
-            _gun.DecreaseHeat(_heatDownStepPerFrame);
-            Debug.Log("DECREASE!!");
-        }
+            if (!_isShooting)
+            {
+                _gun.DecreaseHeat(_heatDownStepPerFrame);
+                Debug.Log("DECREASE!!");
+            }
 
-        Move();
+            Move();
 
-        if (OnTheGround())
-        {
-            Jump();
+            if (OnTheGround())
+            {
+                Jump();
+            }
         }
     }
 
@@ -149,6 +158,22 @@ public class PlayerController : MonoBehaviour
     {
         _currentHealth -= damage;
         UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
+        if (_currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        _spriteController.SetDeathTrigger();
+        UIController.Instance.StartCoroutine("FadeOut");
+        _col.enabled = false;
+        _alive = false;
+        _rb.isKinematic = true;
+        _rb.velocity = Vector2.zero;
+        _arm.gameObject.SetActive(false);
+        //replace the crosshair with a normal pointer here
     }
 
     private void FixedUpdate()

@@ -574,8 +574,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _heatScale: {fileID: 1259267556}
   _healthScale: {fileID: 737829558}
+  _fadeOutPanel: {fileID: 541508453}
   _crosshair: {fileID: 2800000, guid: 6a5211ed6950c0d4187a2b939932f2c1, type: 3}
   _crosshairHotspot: {x: 10, y: 10}
+  _mainCanvas: {fileID: 1934155581}
+  _fadeOutTempo: 3
 --- !u!4 &443012659
 Transform:
   m_ObjectHideFlags: 0

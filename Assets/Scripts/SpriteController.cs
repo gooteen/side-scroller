@@ -19,6 +19,11 @@ public class SpriteController : MonoBehaviour
         _anim.Play("DamageImpactPlayer");
     }
 
+    public void SetDeathTrigger()
+    {
+        _anim.SetTrigger("Dead");
+    }
+
     public void SetOnTheGroundAnimatorParameter(bool _grounded)
     {
         _anim.SetBool("OnTheGround", _grounded);
