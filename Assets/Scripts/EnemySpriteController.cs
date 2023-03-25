@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemySpriteController : MonoBehaviour
 {
+    public bool _updateRotation;
+    //[SerializeField] private EnemyController; _updateRotation;
     private SpriteRenderer _sprite;
     private Animator _anim;
 
@@ -30,19 +32,27 @@ public class EnemySpriteController : MonoBehaviour
 
     public void UpdateSpriteRotation()
     {
-        if (RuntimeEntities.Instance.Player.transform.position.x < transform.position.x)
+        if (_updateRotation)
         {
-            if (!_sprite.flipX)
+            if (RuntimeEntities.Instance.Player.transform.position.x < transform.position.x)
             {
-                _sprite.flipX = true;
+                if (!_sprite.flipX)
+                {
+                    _sprite.flipX = true;
+                }
+            }
+            else
+            {
+                if (_sprite.flipX)
+                {
+                    _sprite.flipX = false;
+                }
             }
         }
-        else
-        {
-            if (_sprite.flipX)
-            {
-                _sprite.flipX = false;
-            }
-        }
+    }
+
+    public void TriggerShooting()
+    {
+
     }
 }

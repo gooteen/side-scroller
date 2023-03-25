@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68ab3dbdb132e14b9aa2816ff5411dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _updateRotation: 1
 --- !u!1 &3119643853012564899
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,11 +126,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3119643853012564909}
   - component: {fileID: 3119643853012564910}
-  - component: {fileID: 3119643853012564911}
+  - component: {fileID: 1673631362823852120}
   - component: {fileID: 3119643853012564904}
   - component: {fileID: 3119643853012564908}
   m_Layer: 10
-  m_Name: Enemy
+  m_Name: Demon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,7 +174,7 @@ NavMeshAgent:
   m_BaseOffset: 0.975
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3119643853012564911
+--- !u!114 &1673631362823852120
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,10 +183,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3119643853012564899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c1c43f99198b7c42a3f269438ee832d, type: 3}
+  m_Script: {fileID: 11500000, guid: c9ff4883cac63cc4db34fa5ba0b6edc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fadeRate: 1
+  _fadeRate: 2
   _sprite: {fileID: 5769125831594491485}
   _totalEnemyHealth: 5
   _coinPrefab: {fileID: 2318873716559422590, guid: 45baefed2833bb14e88e13d10774c3a8,
@@ -197,6 +198,7 @@ MonoBehaviour:
   _secondsBetweenCoins: 0.1
   _damageField: {fileID: 3119643853792193782}
   _healerDropProbability: 5
+  _distanceToUnchain: 12
 --- !u!58 &3119643853012564904
 CircleCollider2D:
   m_ObjectHideFlags: 0

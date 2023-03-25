@@ -5,15 +5,13 @@ using UnityEngine;
 public class Healer : PoppedItem
 {
     [SerializeField] private float _healthToRestore;
-    private void Update()
+
+    internal override void OnTriggerStay2D(Collider2D collision)
     {
-        if ((RuntimeEntities.Instance.Player.transform.position - transform.position).magnitude <= _distanceToPlayer)
+        base.OnTriggerStay2D(collision);
+        if (_absorbable)
         {
-            if (_absorbable)
-            {
-                RuntimeEntities.Instance.Player.Heal(_healthToRestore);
-                Destroy(gameObject);
-            }
+            RuntimeEntities.Instance.Player.Heal(_healthToRestore);
         }
     }
 }

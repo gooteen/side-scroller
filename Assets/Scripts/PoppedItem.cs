@@ -24,7 +24,6 @@ public class PoppedItem : MonoBehaviour
     {
         if (_pullTowardsPlayer)
         {
-            //_rb.AddForce((RuntimeEntities.Instance.Player.transform.position - transform.position).normalized * _pullForce, ForceMode2D.Force);
             _rb.velocity = (RuntimeEntities.Instance.Player.transform.position - transform.position).normalized * _pullForce;
         }
     }
@@ -37,14 +36,11 @@ public class PoppedItem : MonoBehaviour
         _rb.gravityScale = 0;
     }
 
-    /*
-    private void OnTriggerEnter2D(Collider2D collision)
+    internal virtual void OnTriggerStay2D(Collider2D collision)
     {
         if (_absorbable)
         {
-            RuntimeEntities.Instance.Player.AddPoint();
             Destroy(gameObject);
         }
     }
-    */
 }

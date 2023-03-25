@@ -356,7 +356,7 @@ public class PlayerController : MonoBehaviour
     private bool OnTheGround()
     {
         Debug.DrawRay(_raycastOrigin.position, Vector2.down * _groundCheckRayLength, Color.red);
-        bool _onTheGround = Physics2D.Raycast(_raycastOrigin.position, Vector2.down, _groundCheckRayLength);
+        bool _onTheGround = Physics2D.Raycast(_raycastOrigin.position, Vector2.down, _groundCheckRayLength, LayerMask.GetMask("Ground"));
         _spriteController.SetOnTheGroundAnimatorParameter(_onTheGround);
         Debug.Log("ontheground:"  + _onTheGround);
         if (_isJumping == true && _onTheGround == true)

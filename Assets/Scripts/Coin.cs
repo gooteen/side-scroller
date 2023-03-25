@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class Coin : PoppedItem
 {
-    private void Update()
+    internal override void OnTriggerStay2D(Collider2D collision)
     {
-        if ((RuntimeEntities.Instance.Player.transform.position - transform.position).magnitude <= _distanceToPlayer)
+        base.OnTriggerStay2D(collision);
+        if (_absorbable)
         {
-            if (_absorbable)
-            {
-                RuntimeEntities.Instance.Player.AddPoint();
-                Destroy(gameObject);
-            }
+            RuntimeEntities.Instance.Player.AddPoint();
         }
     }
 }

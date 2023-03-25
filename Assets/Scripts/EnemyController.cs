@@ -1,74 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private float _fadeRate;
-    [SerializeField] private EnemySpriteController _sprite;
-    [SerializeField] private float _totalEnemyHealth;
-    [SerializeField] private GameObject _coinPrefab;
-    [SerializeField] private GameObject _healerPrefab;
-    [SerializeField] private int _numberOfItemsToSprinkle;
-    [SerializeField] private float _coinPushForce;
-    [SerializeField] private float _secondsBetweenCoins = 0.1f;
-    [SerializeField] private GameObject _damageField;
-    [SerializeField] private int _healerDropProbability;
+    [SerializeField] internal float _fadeRate;
+    [SerializeField] internal EnemySpriteController _sprite;
+    [SerializeField] internal float _totalEnemyHealth;
+    [SerializeField] internal GameObject _coinPrefab;
+    [SerializeField] internal GameObject _healerPrefab;
+    [SerializeField] internal int _numberOfItemsToSprinkle;
+    [SerializeField] internal float _coinPushForce;
+    [SerializeField] internal float _secondsBetweenCoins = 0.1f;
+    [SerializeField] internal GameObject _damageField;
+    [SerializeField] internal int _healerDropProbability;
 
-    private float _currentEnemyHealth;
-    private NavMeshAgent _ai;
-    private Rigidbody2D _rb;
+    internal float _currentEnemyHealth;
+    internal bool _isDead;
 
-    private bool _isDead;
-
-    void Start()
+    internal virtual void Start()
     {
         _isDead = false;
         _currentEnemyHealth = _totalEnemyHealth;
-        _ai = GetComponent<NavMeshAgent>();
-        _rb = GetComponent<Rigidbody2D>();
-        _ai.updateUpAxis = false;
-        _ai.updateRotation = false;
     }
 
-    void Update()
-    {
-        if (!_isDead)
-        {
-            SetNavAgentTarget();
-        }
-    }
-
-    private void SetNavAgentTarget()
-    {
-        _ai.SetDestination(RuntimeEntities.Instance.Player.transform.position);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    internal virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer != LayerMask.NameToLayer("Player"))
         {
             if (!_isDead)
             {
                 TakeDamage();
-                if (!_isDead)
-                {
-                    StartCoroutine("OnImpact");
-                }
                 _sprite.Animator.Play("Impact");
             }
         }
     }
 
-    private IEnumerator OnImpact()
-    {
-        _ai.isStopped = true;
-        yield return new WaitForSeconds(0.25f);
-        _ai.isStopped = false;
-    }
-
-    private void TakeDamage()
+    internal void TakeDamage()
     {
         _currentEnemyHealth -= RuntimeEntities.Instance.Settings._bulletDamage;
         _sprite.Animator.SetFloat("Health", _currentEnemyHealth);
@@ -79,18 +47,15 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void Die()
+    internal virtual void Die()
     {
         StopAllCoroutines();
-        _ai.isStopped = true;
-        _rb.gravityScale = 1;
-        _rb.freezeRotation = false;
         transform.rotation = new Quaternion(0,0,0,0);
         _damageField.SetActive(false);
         StartCoroutine("Fade");
     }
 
-    private IEnumerator Fade()
+    internal IEnumerator Fade()
     {
         StartCoroutine("SprinkleCoins");
         while (_sprite.Sprite.color.a >= 0.01)
@@ -101,7 +66,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private IEnumerator SprinkleCoins()
+    internal IEnumerator SprinkleCoins()
     {
         int _counter = _numberOfItemsToSprinkle;
         while (_counter > 0)
@@ -123,7 +88,7 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private bool DropHealer()
+    internal bool DropHealer()
     {
         int _param = Random.Range(0, 100);
         if (_param <= _healerDropProbability)
