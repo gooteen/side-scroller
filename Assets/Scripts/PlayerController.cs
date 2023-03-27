@@ -163,6 +163,7 @@ public class PlayerController : MonoBehaviour
     {
         _currentHealth -= damage;
         UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
+        _spriteController.PlayDamageImpactAnimation();
         if (_currentHealth <= 0)
         {
             Die();
@@ -182,6 +183,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         _spriteController.SetDeathTrigger();
+        _spriteController.Renderer.sortingOrder = 100;
         UIController.Instance.StartCoroutine("FadeOut");
         _col.enabled = false;
         _alive = false;

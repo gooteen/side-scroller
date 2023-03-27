@@ -161,7 +161,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3119643853012564899}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -170,8 +170,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.72
-  m_BaseOffset: 0.975
+  m_Height: 1
+  m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1673631362823852120
@@ -281,9 +281,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.15, y: 0.11}
+  m_Offset: {x: -0.14999998, y: 0.10356164}
   serializedVersion: 2
-  m_Radius: 1.44
+  m_Radius: 1.2905958
 --- !u!114 &3119643853792193777
 MonoBehaviour:
   m_ObjectHideFlags: 0

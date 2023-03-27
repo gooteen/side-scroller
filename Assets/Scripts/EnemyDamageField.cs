@@ -11,7 +11,6 @@ public class EnemyDamageField : MonoBehaviour
     {
         PlayerController _player = RuntimeEntities.Instance.Player;
         _player.TakeDamage(_damage);
-        _player.Sprite.PlayDamageImpactAnimation();
         _player.PushRb(new Vector2(collision.transform.position.x, collision.transform.position.y) - collision.GetContact(0).point, _pushForce);
     }
 }

@@ -8,6 +8,8 @@ public class SpriteController : MonoBehaviour
     private SpriteRenderer _playerRenderer;
     private Animator _anim;
 
+    public SpriteRenderer Renderer { get{ return _playerRenderer; } }
+
     void Awake()
     {
         _anim = GetComponent<Animator>();
