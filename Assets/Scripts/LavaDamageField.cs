@@ -9,6 +9,7 @@ public class LavaDamageField : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Couroutine started " + collision.gameObject);
         StartCoroutine("InflictLavaDamage");
     }
 
