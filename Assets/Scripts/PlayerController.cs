@@ -190,6 +190,7 @@ public class PlayerController : MonoBehaviour
         _rb.isKinematic = true;
         _rb.velocity = Vector2.zero;
         _arm.gameObject.SetActive(false);
+        RuntimeEntities.Instance.SetDeathCam();
         //replace the crosshair with a normal pointer here
     }
 
@@ -279,6 +280,7 @@ public class PlayerController : MonoBehaviour
         
         if (_direction.magnitude != 0)
         {
+            Debug.Log("must move");
             if (OnTheGround())
             {
                 _rb.velocity = new Vector2(_direction.x * _settings._playerMovementSpeedGround, _rb.velocity.y);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f7ec7d60ec9e843adbc0c303bce82b, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  _playerMovementSpeedGround: 4.7
+  _playerMovementSpeedGround: 6
   _playerMovementSpeedAir: 3
   _jumpImpulse: 5
   _bulletDamage: 1

@@ -40,7 +40,7 @@ public class GunController : MonoBehaviour
     public float RecoilForceY { get { return _recoilForceY; }}
 
 
-    void Start()
+    void Awake()
     {
         _smokeEffectEmission = _smokeEffect.emission;
         _rend = _anim.GetComponent<SpriteRenderer>();
