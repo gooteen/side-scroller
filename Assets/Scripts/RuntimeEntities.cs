@@ -11,6 +11,8 @@ public class RuntimeEntities : MonoBehaviour
     [SerializeField] private List<CinemachineVirtualCamera> _vCams;
     [SerializeField] private CinemachineVirtualCamera _deathCam;
 
+    [SerializeField] private Leaderboard _TEMPORARY; 
+
     public static RuntimeEntities Instance
     {
         get; private set;
@@ -53,5 +55,21 @@ public class RuntimeEntities : MonoBehaviour
             _vCam.Priority = 0;
         }
         _deathCam.Priority = 0;
+
+        _TEMPORARY.AddNewRecord("Kenya");
+        /*
+        List<LeaderboardRecord> _records = _TEMPORARY.GetRecordsListSortedByScore();
+        List<LeaderboardRecord> _records2 = _TEMPORARY.GetRecordsListSortedByTime();
+        
+        for (int i = _records.Count - 1; i >= 0; i--)
+        {
+            Debug.Log($"by score: {i} - {_records[i].PlayerName}, {_records[i].PlayerScore} ");
+        }
+
+        for (int i = _records2.Count - 1; i >= 0; i--)
+        {
+            Debug.Log($"by time: {i} - {_records2[i].PlayerName}, {_records2[i].PlayerTime} ");
+        }
+        */
     }
 }
