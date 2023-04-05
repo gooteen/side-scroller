@@ -256,13 +256,10 @@ public class PlayerController : MonoBehaviour
 
     private void Aim()
     {
-        if (InputProcessor.Instance.GetMouseDelta().magnitude != 0)
-        {
-            _arm.localRotation = Quaternion.AngleAxis(GetRotationAngle(), Vector3.forward);
-            SetDirectionOfAim();
-            Debug.Log("EULER: " + _arm.localEulerAngles.z);
-            Debug.Log("Mouse Pos: " + InputProcessor.Instance.GetMousePosition());
-        }
+        _arm.localRotation = Quaternion.AngleAxis(GetRotationAngle(), Vector3.forward);
+        SetDirectionOfAim();
+        Debug.Log("EULER: " + _arm.localEulerAngles.z);
+        Debug.Log("Mouse Pos: " + InputProcessor.Instance.GetMousePosition());
     }
 
     private void Jump()
@@ -318,8 +315,10 @@ public class PlayerController : MonoBehaviour
 
     private void SetDirectionOfAim()
     {
+        Debug.Log($"check! mouse: {RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x}, character: {transform.position.x}");
         if (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x < transform.position.x)
         {
+            Debug.Log("check: " + (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x < transform.position.x));
             if (_isFacingRight)
             {
                 ChangeSide();
@@ -337,8 +336,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        else if (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x > transform.position.x)
+        else if (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x >= transform.position.x)
         {
+            Debug.Log("check: " + (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x > transform.position.x));
             if (!_isFacingRight)
             {
                 ChangeSide();
