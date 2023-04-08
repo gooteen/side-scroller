@@ -28,10 +28,22 @@ public class Leaderboard : ScriptableObject
 {
     [SerializeField] private List<LeaderboardRecord> _records;
 
-    public LeaderboardRecord this[ int index]
+    
+    public LeaderboardRecord this[string name]
     {
-        get { return _records[index]; } 
-        private set { _records[index] = value; }
+        get { return GetRecordByName(name); } 
+    }
+    
+    public LeaderboardRecord GetRecordByName(string name)
+    {
+        foreach (LeaderboardRecord _record in _records)
+        {
+            if (_record.PlayerName == name)
+            {
+                return _record;
+            }
+        }
+        return null;
     }
 
     public void AddNewRecord(string name)
@@ -44,6 +56,11 @@ public class Leaderboard : ScriptableObject
             }
         }
         _records.Add(new LeaderboardRecord(name));
+    }
+
+    public void DropRecord(LeaderboardRecord record)
+    {
+        _records.Remove(record);
     }
 
     public List<LeaderboardRecord> GetRecordsListSortedByTime()
@@ -66,7 +83,6 @@ public class Leaderboard : ScriptableObject
                 }
             }
         }
-        Debug.Log($"sortedddTime: {_sortedRecords[0].PlayerTime},{_sortedRecords[1].PlayerTime},{_sortedRecords[2].PlayerTime}");
 
         return _sortedRecords;
     }
@@ -91,7 +107,6 @@ public class Leaderboard : ScriptableObject
                 }
             }
         }
-        Debug.Log($"sortedddScore: {_sortedRecords[0].PlayerScore},{_sortedRecords[1].PlayerScore},{_sortedRecords[2].PlayerScore}");
 
         return _sortedRecords;
     }

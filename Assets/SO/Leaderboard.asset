@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: Leaderboard
   m_EditorClassIdentifier: 
   _records:
-  - _playerName: Kesha
-    _playerScore: 2
-    _playerTime: 4
-  - _playerName: Vanya
-    _playerScore: 1
-    _playerTime: 6
-  - _playerName: Masha
-    _playerScore: 3
-    _playerTime: 5
+  - _playerName: "Roman\u200B"
+    _playerScore: 0
+    _playerTime: 0
+    _currentPlayer: 0
+  - _playerName: "Mishan\u200B"
+    _playerScore: 0
+    _playerTime: 0
+    _currentPlayer: 0
