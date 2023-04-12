@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
@@ -10,10 +11,23 @@ public class UIController : MonoBehaviour
     [SerializeField] private Image _healthScale;
     [SerializeField] private Image _fadeOutPanel;
     [SerializeField] private Texture2D _crosshair;
+    [SerializeField] private Texture2D _normalPointer;
+    [SerializeField] private Texture2D _handPointer;
     [SerializeField] private Vector2 _crosshairHotspot;
+    [SerializeField] private Vector2 _normalPointerHotspot;
+    [SerializeField] private Vector2 _handPointerHotspot;
     [SerializeField] private GameObject _mainCanvas;
 
+    [SerializeField] private GameObject _exitButton;
+    [SerializeField] private GameObject _replayButton;
+
+    [SerializeField] private TMP_Text _message;
+    [SerializeField] private string _victoryMessageText;
+    [SerializeField] private string _deathMessageText;
+    [SerializeField] private float _timeBetweenLetters;
+
     [SerializeField] private float _fadeOutTempo;
+
     private Color _scaleNormalColor;
 
     public static UIController Instance
@@ -32,9 +46,25 @@ public class UIController : MonoBehaviour
         _scaleNormalColor = _heatScale.color;
     }
 
+    public void ShowButtons()
+    {
+        _exitButton.SetActive(true);
+        _replayButton.SetActive(true);
+    }
+
     public void SetCrosshair()
     {
         Cursor.SetCursor(_crosshair, _crosshairHotspot, CursorMode.Auto);
+    }
+
+    public void SetNormalPointer()
+    {
+        Cursor.SetCursor(_normalPointer, _normalPointerHotspot, CursorMode.Auto);
+    }
+
+    public void SetHandPointer()
+    {
+        Cursor.SetCursor(_handPointer, _handPointerHotspot, CursorMode.Auto);
     }
 
     public void UpdateHeatScaleFillAmount(float value)
@@ -67,4 +97,25 @@ public class UIController : MonoBehaviour
             _heatScale.color = _scaleNormalColor;
         }
     }
+    
+    public IEnumerator SpellVictoryMessage()
+    {
+        _message.color = Color.green;
+        foreach (char _c in _victoryMessageText)
+        {
+            _message.text += _c;
+            yield return new WaitForSeconds(_timeBetweenLetters);
+        }
+    }
+
+    public IEnumerator SpellDeathMessage()
+    {
+        _message.color = Color.red;
+        foreach (char _c in _deathMessageText)
+        {
+            _message.text += _c;
+            yield return new WaitForSeconds(_timeBetweenLetters);
+        }
+    }
+
 }

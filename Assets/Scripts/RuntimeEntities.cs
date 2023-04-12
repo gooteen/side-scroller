@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class RuntimeEntities : MonoBehaviour
 {
@@ -9,9 +10,9 @@ public class RuntimeEntities : MonoBehaviour
     [SerializeField] private PlayerController _player;
     [SerializeField] private PlayerSettings _settings;
     [SerializeField] private List<CinemachineVirtualCamera> _vCams;
-    [SerializeField] private CinemachineVirtualCamera _deathCam;
+    [SerializeField] private CinemachineVirtualCamera _focusCam;
 
-    [SerializeField] private Leaderboard _TEMPORARY; 
+    [SerializeField] private Leaderboard _leaderboard; 
 
     public static RuntimeEntities Instance
     {
@@ -23,6 +24,34 @@ public class RuntimeEntities : MonoBehaviour
     public PlayerSettings Settings { get { return _settings; } }
 
     public Camera Camera { get { return _cam; } }
+
+    void Awake()
+    {
+        Instance = this;
+        foreach (CinemachineVirtualCamera _vCam in _vCams)
+        {
+            _vCam.Priority = 0;
+        }
+        _focusCam.Priority = 0;
+    }
+
+    public void UpdatePlayerScore()
+    {
+        if (_leaderboard[_settings._currentPlayerName].PlayerScore < _player.Points)
+        {
+            _leaderboard[_settings._currentPlayerName].PlayerScore = _player.Points;
+        }
+    }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 
     public void UpdateCurrentCamera(CinemachineVirtualCamera newCam)
     {
@@ -38,38 +67,12 @@ public class RuntimeEntities : MonoBehaviour
         }
     }
 
-    public void SetDeathCam()
+    public void SetFocusCam()
     {
         foreach (CinemachineVirtualCamera _vCam in _vCams)
         {
             _vCam.Priority = 0;
         }
-        _deathCam.Priority = 1;
-    }
-
-    void Awake()
-    {
-        Instance = this;
-        foreach (CinemachineVirtualCamera _vCam in _vCams)
-        {
-            _vCam.Priority = 0;
-        }
-        _deathCam.Priority = 0;
-
-        _TEMPORARY.AddNewRecord("Kenya");
-        /*
-        List<LeaderboardRecord> _records = _TEMPORARY.GetRecordsListSortedByScore();
-        List<LeaderboardRecord> _records2 = _TEMPORARY.GetRecordsListSortedByTime();
-        
-        for (int i = _records.Count - 1; i >= 0; i--)
-        {
-            Debug.Log($"by score: {i} - {_records[i].PlayerName}, {_records[i].PlayerScore} ");
-        }
-
-        for (int i = _records2.Count - 1; i >= 0; i--)
-        {
-            Debug.Log($"by time: {i} - {_records2[i].PlayerName}, {_records2[i].PlayerTime} ");
-        }
-        */
+        _focusCam.Priority = 1;
     }
 }

@@ -32,12 +32,17 @@ public class PlayerController : MonoBehaviour
     private bool _isJumping;
     private bool _isAiming;
     private bool _armVisible;
-    private bool _alive;
+    private bool _active;
     
     private float _coolDownStartTime;
     private float _currentHealth;
 
     private Rigidbody2D _rb;
+
+    public Rigidbody2D Rigidbody
+    {
+        get { return _rb; }
+    }
 
     public GunController Gun
     {
@@ -49,6 +54,21 @@ public class PlayerController : MonoBehaviour
         get { return _spriteController; }
     }
 
+    public int Points
+    {
+        get { return _currentPointCount; }
+    }
+
+    public bool Active
+    {
+        set { _active = value; }
+    }
+
+    public Transform Arm
+    {
+        get { return _arm; }
+    }
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -57,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        _alive = true;
+        _active = true;
         _currentPointCount = 0;
         _currentHealth = _maxHealth;
         UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
@@ -97,7 +117,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (_alive)
+        if (_active)
         {
             SetArmVisibility();
 
@@ -186,11 +206,14 @@ public class PlayerController : MonoBehaviour
         _spriteController.Renderer.sortingOrder = 100;
         UIController.Instance.StartCoroutine("FadeOut");
         _col.enabled = false;
-        _alive = false;
+        _active = false;
         _rb.isKinematic = true;
         _rb.velocity = Vector2.zero;
         _arm.gameObject.SetActive(false);
-        RuntimeEntities.Instance.SetDeathCam();
+        RuntimeEntities.Instance.SetFocusCam();
+        UIController.Instance.StartCoroutine("SpellDeathMessage");
+        UIController.Instance.ShowButtons();
+        UIController.Instance.SetNormalPointer();
         //replace the crosshair with a normal pointer here
     }
 

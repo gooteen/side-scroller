@@ -9,7 +9,7 @@ public class MainMenuConfigurator : MonoBehaviour
     public Texture2D _handCursor;
     public Vector2 _hotSpot;
 
-    void Start()
+    private void Awake()
     {
         SetNormalCursor();
     }

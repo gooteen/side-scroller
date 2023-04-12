@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LeaderboardUI : MonoBehaviour
 {
@@ -17,20 +18,41 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] private GameObject _noPlayersText;
     [SerializeField] private TMP_Text _inputFieldValue;
     [SerializeField] private MainMenuConfigurator _menuController;
+    [SerializeField] private PlayerSettings _playerSettngs;
 
     [SerializeField] private string _selectedPlayerName;
-    [SerializeField] private int _selectedRecordIndex;
+    //[SerializeField] private int _selectedRecordIndex;
 
     private bool _isDeleteButtonHover;
+    [SerializeField] private bool _isPlayButtonHover;
+
+    private void Awake()
+    {
+        _playerSettngs._currentPlayerName = null;
+        _selectedPlayerName = null;
+    }
+
+    public void EnterTheGame()
+    {
+        if (_selectedPlayerName.Length > 1)
+        {
+            _playerSettngs._currentPlayerName = _selectedPlayerName;
+            SceneManager.LoadScene(1);
+        }
+    }
 
     public void ChangeDeleteButtonStatus()
     {
         _isDeleteButtonHover = !_isDeleteButtonHover;
     }
 
+    public void ChangePlayButtonStatus()
+    {
+        _isPlayButtonHover = !_isPlayButtonHover;
+    }
+
     public void FillLeaderboard()
     {
-        Debug.Log("FILLING");
         List<LeaderboardRecord> _records = _leaderboard.GetRecordsListSortedByScore();
 
         if (_records.Count == 0)
@@ -60,7 +82,6 @@ public class LeaderboardUI : MonoBehaviour
             }
         }
         _selectedPlayerName = null;
-        _selectedRecordIndex = -1;
     }
 
     public void ClearLeaderboard()
@@ -104,7 +125,7 @@ public class LeaderboardUI : MonoBehaviour
         EventTrigger.Entry _entrySelect = new EventTrigger.Entry();
         _entrySelect.eventID = EventTriggerType.Select;
         _entrySelect.callback.RemoveAllListeners();
-        _entrySelect.callback.AddListener(delegate { SetSelectedIndexAndName(recordFields); });
+        _entrySelect.callback.AddListener(delegate { SetSelectedName(recordFields); });
 
         _entrySelect.callback.AddListener(delegate { _playButton.gameObject.SetActive(true); });
         _entrySelect.callback.AddListener(delegate { _deleteButton.gameObject.SetActive(true); });
@@ -119,10 +140,9 @@ public class LeaderboardUI : MonoBehaviour
         EventTrigger.Entry _entryDeselect = new EventTrigger.Entry();
         _entryDeselect.eventID = EventTriggerType.Deselect;
         _entryDeselect.callback.RemoveAllListeners();
-        _entryDeselect.callback.AddListener(delegate { ClearSelectedIndexAndName(recordFields); });
 
-        _entryDeselect.callback.AddListener(delegate { _playButton.gameObject.SetActive(false); });
         _entryDeselect.callback.AddListener(delegate { DisableDeleteButton(); });
+        _entryDeselect.callback.AddListener(delegate { DisablePlayButton(); });
 
         recordFields.EventTrigger.triggers.Add(_entryDeselect);
     }
@@ -135,9 +155,17 @@ public class LeaderboardUI : MonoBehaviour
         }
     }
 
+    private void DisablePlayButton()
+    {
+        if (!_isPlayButtonHover)
+        {
+            _playButton.gameObject.SetActive(false);
+            ClearSelectedName();
+        }
+    }
+
     private void SetDeleteButton(LeaderboardRecordUI recordFields)
     {
-        Debug.Log("HEEEYooo");
         _deleteButton.onClick.RemoveAllListeners();
         //_deleteButton.onClick.RemoveAllListeners();
         _deleteButton.onClick.AddListener(delegate { _leaderboard.DropRecord(_leaderboard[recordFields.PlayerName]); });
@@ -155,15 +183,13 @@ public class LeaderboardUI : MonoBehaviour
     }
     */
 
-    private void SetSelectedIndexAndName(LeaderboardRecordUI recordData)
+    private void SetSelectedName(LeaderboardRecordUI recordData)
     {
         _selectedPlayerName = recordData.PlayerName;
-        _selectedRecordIndex = recordData.Index;
     }
 
-    private void ClearSelectedIndexAndName(LeaderboardRecordUI recordData)
+    private void ClearSelectedName()
     {
         _selectedPlayerName = null;
-        _selectedRecordIndex = -1;
     }
 }
