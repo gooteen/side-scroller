@@ -28,6 +28,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _heatDownStepPerFrame = 0.1f;
 
     [SerializeField] private bool _isShooting;
+
+    private float _startTime;
+    private float _currentTime;
+
     private CapsuleCollider2D _col;
     private bool _isJumping;
     private bool _isAiming;
@@ -59,6 +63,11 @@ public class PlayerController : MonoBehaviour
         get { return _currentPointCount; }
     }
 
+    public int TimeAmount
+    {
+        get { return (int)_currentTime; }
+    }
+
     public bool Active
     {
         set { _active = value; }
@@ -73,6 +82,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
+        _startTime = Time.time;
     }
 
     private void Start()
@@ -117,6 +127,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        _currentTime = Time.time - _startTime;
+        UIController.Instance.Timer.text = ((int)_currentTime).ToString();
+
         if (_active)
         {
             SetArmVisibility();
@@ -138,14 +151,20 @@ public class PlayerController : MonoBehaviour
                     {
                         if (_isShooting)
                         {
-                            _gun.StartEmittingSmoke();
+                            if (_gun.isActiveAndEnabled)
+                            {
+                                _gun.StartEmittingSmoke();
+                            }
                             _isShooting = false;
                         }
                     }
                 }
                 else
                 {
-                    _gun.StartEmittingSmoke();
+                    if (_gun.isActiveAndEnabled)
+                    {
+                        _gun.StartEmittingSmoke();
+                    }
                     _isShooting = false;
                 }
             }
@@ -172,6 +191,7 @@ public class PlayerController : MonoBehaviour
     public void AddPoint()
     {
         _currentPointCount += 1;
+        UIController.Instance.Counter.text = _currentPointCount.ToString();
     }
 
     public void PushRb(Vector2 dir, float force)

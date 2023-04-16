@@ -138,7 +138,10 @@ public class GunController : MonoBehaviour
 
     public void StartEmittingSmoke()
     {
-        _currentSmokeEffectCoroutine = StartCoroutine("EmitSmoke");
+        if (gameObject)
+        {
+            _currentSmokeEffectCoroutine = StartCoroutine("EmitSmoke");
+        }
     }
 
     public void StopEmittingSmoke()

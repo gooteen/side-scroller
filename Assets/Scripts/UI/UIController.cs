@@ -7,8 +7,13 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public enum ScaleColor { Red, Normal };
+
     [SerializeField] private Image _heatScale;
     [SerializeField] private Image _healthScale;
+    [SerializeField] private GameObject _heatContainer;
+    [SerializeField] private GameObject _healthContainer;
+    [SerializeField] private GameObject _coinImage;
+
     [SerializeField] private Image _fadeOutPanel;
     [SerializeField] private Texture2D _crosshair;
     [SerializeField] private Texture2D _normalPointer;
@@ -20,6 +25,9 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private GameObject _exitButton;
     [SerializeField] private GameObject _replayButton;
+
+    [SerializeField] private TMP_Text _pointCounter;
+    [SerializeField] private TMP_Text _timer;
 
     [SerializeField] private TMP_Text _message;
     [SerializeField] private string _victoryMessageText;
@@ -35,6 +43,9 @@ public class UIController : MonoBehaviour
         get; private set;
     }
 
+    public TMP_Text Counter { get { return _pointCounter; } }
+    public TMP_Text Timer { get { return _timer; } }
+
     private void Awake()
     {
         SetCrosshair();
@@ -44,6 +55,28 @@ public class UIController : MonoBehaviour
     void Start()
     {
         _scaleNormalColor = _heatScale.color;
+    }
+
+    public void HideAllUI()
+    {
+        _heatScale.gameObject.SetActive(false);
+        _healthScale.gameObject.SetActive(false);
+        _heatContainer.SetActive(false);
+        _healthContainer.SetActive(false);
+        _pointCounter.gameObject.SetActive(false);
+        _timer.gameObject.SetActive(false);
+        _coinImage.SetActive(false);
+    }
+
+    public void ShowAllUI()
+    {
+        _heatScale.gameObject.SetActive(true);
+        _healthScale.gameObject.SetActive(true);
+        _heatContainer.SetActive(true);
+        _healthContainer.SetActive(true);
+        _pointCounter.gameObject.SetActive(true);
+        _timer.gameObject.SetActive(true);
+        _coinImage.SetActive(true);
     }
 
     public void ShowButtons()

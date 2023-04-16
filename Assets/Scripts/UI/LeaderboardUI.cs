@@ -8,13 +8,21 @@ using UnityEngine.SceneManagement;
 
 public class LeaderboardUI : MonoBehaviour
 {
+    public enum FilteringMode {Time, Score };
+
     [SerializeField] private Transform _recordConatiner;
     [SerializeField] private GameObject _recordPrefab;
     [SerializeField] private Leaderboard _leaderboard;
     [SerializeField] private List<GameObject> _recordElements;
+
     [SerializeField] private Button _playButton;
     [SerializeField] private Button _deleteButton;
     [SerializeField] private Button _addPlayerButton;
+
+    [SerializeField] private Color _filterStartColor;
+    [SerializeField] private TMP_Text _scoreFilterText;
+    [SerializeField] private TMP_Text _timeFilterText;
+
     [SerializeField] private GameObject _noPlayersText;
     [SerializeField] private TMP_Text _inputFieldValue;
     [SerializeField] private MainMenuConfigurator _menuController;
@@ -24,10 +32,12 @@ public class LeaderboardUI : MonoBehaviour
     //[SerializeField] private int _selectedRecordIndex;
 
     private bool _isDeleteButtonHover;
+    private FilteringMode _currentFilteringMode;
     [SerializeField] private bool _isPlayButtonHover;
 
     private void Awake()
     {
+        _currentFilteringMode = FilteringMode.Score;
         _playerSettngs._currentPlayerName = null;
         _selectedPlayerName = null;
     }
@@ -51,9 +61,32 @@ public class LeaderboardUI : MonoBehaviour
         _isPlayButtonHover = !_isPlayButtonHover;
     }
 
+    public void SetFilteringMode(int mode)
+    {
+        if (mode == 1)
+        {
+            _currentFilteringMode = FilteringMode.Score;
+        } else
+        {
+            _currentFilteringMode = FilteringMode.Time;
+        }
+    }
+
     public void FillLeaderboard()
     {
-        List<LeaderboardRecord> _records = _leaderboard.GetRecordsListSortedByScore();
+        List<LeaderboardRecord> _records;
+        if (_currentFilteringMode == FilteringMode.Score)
+        {
+            _records = _leaderboard.GetRecordsListSortedByScore();
+            _scoreFilterText.color = Color.white;
+            _timeFilterText.color = _filterStartColor;
+        } else
+        {
+            _records = _leaderboard.GetRecordsListSortedByTime();
+            _timeFilterText.color = Color.white;
+            _scoreFilterText.color = _filterStartColor;
+        }
+
 
         if (_records.Count == 0)
         {

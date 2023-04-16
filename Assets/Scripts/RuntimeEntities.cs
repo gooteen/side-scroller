@@ -35,12 +35,27 @@ public class RuntimeEntities : MonoBehaviour
         _focusCam.Priority = 0;
     }
 
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        _player.Arm.gameObject.SetActive(false);
+        _player.Active = false;
+    }
+
+    public void UnPause()
+    {
+        Time.timeScale = 1;
+        _player.Active = true;
+        if (InputProcessor.Instance.RightMouseButtonPressed())
+        {
+            _player.Arm.gameObject.SetActive(true);
+        }
+    }
+
     public void UpdatePlayerScore()
     {
-        if (_leaderboard[_settings._currentPlayerName].PlayerScore < _player.Points)
-        {
-            _leaderboard[_settings._currentPlayerName].PlayerScore = _player.Points;
-        }
+         _leaderboard[_settings._currentPlayerName].PlayerScore = _player.Points;
+         _leaderboard[_settings._currentPlayerName].PlayerTime = _player.TimeAmount;
     }
 
     public void ReloadLevel()

@@ -99,7 +99,7 @@ public class Leaderboard : ScriptableObject
         {
             for (int j = 0; j < _sortedRecords.Count - 1 - i; j++)
             {
-                if (_sortedRecords[j].PlayerScore >= _sortedRecords[j + 1].PlayerScore)
+                if (_sortedRecords[j].PlayerScore <= _sortedRecords[j + 1].PlayerScore)
                 {
                     var _temp = _sortedRecords[j + 1];
                     _sortedRecords[j + 1] = _sortedRecords[j];
