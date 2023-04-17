@@ -13,11 +13,7 @@ MonoBehaviour:
   m_Name: Leaderboard
   m_EditorClassIdentifier: 
   _records:
-  - _playerName: ds
-    _playerScore: 2
-    _playerTime: 1
-    _currentPlayer: 0
-  - _playerName: sd
-    _playerScore: 1
-    _playerTime: 2
+  - _playerName: "sd\u200B"
+    _playerScore: 0
+    _playerTime: 0
     _currentPlayer: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MainMenuConfigurator : MonoBehaviour
@@ -8,10 +9,18 @@ public class MainMenuConfigurator : MonoBehaviour
     public Texture2D _normalCursor;
     public Texture2D _handCursor;
     public Vector2 _hotSpot;
+    public Slider _soundSlider;
+    public PlayerSettings _settings;
 
     private void Awake()
     {
         SetNormalCursor();
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+        Debug.Log("exiting");
     }
 
     public void SetNormalCursor()
@@ -27,6 +36,11 @@ public class MainMenuConfigurator : MonoBehaviour
     public void LoadLevel()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void SetSliders()
+    {
+        _soundSlider.value = _settings._soundLevelSetting;
     }
 
 }

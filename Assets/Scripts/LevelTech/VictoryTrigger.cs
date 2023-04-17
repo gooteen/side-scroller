@@ -13,7 +13,7 @@ public class VictoryTrigger : MonoBehaviour
         RuntimeEntities.Instance.Player.Active = false;
         RuntimeEntities.Instance.Player.Arm.gameObject.SetActive(false);
         RuntimeEntities.Instance.SetFocusCam();
-        UIController.Instance.ShowButtons();
+        UIController.Instance.ShowButtons(1);
         UIController.Instance.SetNormalPointer();
         UIController.Instance.StartCoroutine("SpellVictoryMessage");
     }

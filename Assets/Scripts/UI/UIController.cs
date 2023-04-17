@@ -24,6 +24,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _mainCanvas;
 
     [SerializeField] private GameObject _exitButton;
+    [SerializeField] private GameObject _exitButtonVictory;
     [SerializeField] private GameObject _replayButton;
 
     [SerializeField] private TMP_Text _pointCounter;
@@ -36,6 +37,7 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private float _fadeOutTempo;
 
+    [SerializeField] private Color _scaleHeatedColor;
     private Color _scaleNormalColor;
 
     public static UIController Instance
@@ -79,9 +81,15 @@ public class UIController : MonoBehaviour
         _coinImage.SetActive(true);
     }
 
-    public void ShowButtons()
+    public void ShowButtons(int _param)
     {
-        _exitButton.SetActive(true);
+        if (_param == 0)
+        {
+            _exitButton.SetActive(true);
+        } else
+        {
+            _exitButtonVictory.SetActive(true);
+        }
         _replayButton.SetActive(true);
     }
 
@@ -124,7 +132,7 @@ public class UIController : MonoBehaviour
     {
         if (color == ScaleColor.Red)
         {
-            _heatScale.color = Color.red;
+            _heatScale.color = _scaleHeatedColor;
         } else
         {
             _heatScale.color = _scaleNormalColor;

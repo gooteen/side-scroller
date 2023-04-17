@@ -201,12 +201,15 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        _currentHealth -= damage;
-        UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
-        _spriteController.PlayDamageImpactAnimation();
-        if (_currentHealth <= 0)
+        if (_active)
         {
-            Die();
+            _currentHealth -= damage;
+            UIController.Instance.UpdateHealthScaleFillAmount(_currentHealth / _maxHealth);
+            _spriteController.PlayDamageImpactAnimation();
+            if (_currentHealth <= 0)
+            {
+                Die();
+            }
         }
     }
 
@@ -232,7 +235,7 @@ public class PlayerController : MonoBehaviour
         _arm.gameObject.SetActive(false);
         RuntimeEntities.Instance.SetFocusCam();
         UIController.Instance.StartCoroutine("SpellDeathMessage");
-        UIController.Instance.ShowButtons();
+        UIController.Instance.ShowButtons(0);
         UIController.Instance.SetNormalPointer();
         //replace the crosshair with a normal pointer here
     }

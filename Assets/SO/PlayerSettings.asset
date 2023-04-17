@@ -16,3 +16,5 @@ MonoBehaviour:
   _playerMovementSpeedAir: 3
   _jumpImpulse: 5
   _bulletDamage: 1
+  _currentPlayerName: 
+  _soundLevelSetting: 1

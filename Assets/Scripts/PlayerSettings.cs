@@ -10,4 +10,5 @@ public class PlayerSettings : ScriptableObject
     public float _jumpImpulse;
     public float _bulletDamage;
     public string _currentPlayerName;
+    public float _soundLevelSetting;
 }
