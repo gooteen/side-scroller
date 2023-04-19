@@ -29,6 +29,8 @@ public class GunController : MonoBehaviour
 
     [SerializeField] private float _timeToEmitSmokeFor;
 
+    [SerializeField] private DuckSoundController _soundController;
+
     private Coroutine _currentSmokeEffectCoroutine;
     private ParticleSystem.EmissionModule _smokeEffectEmission;
     private SpriteRenderer _rend;
@@ -55,6 +57,7 @@ public class GunController : MonoBehaviour
         _effectAnim.Play("Flash");
         if (Time.time - _releaseTime >= _timeBetweenShots)
         {
+            _soundController.PlayRandomShotClip();
             float rotationZ = _rand.Next(-maxTrajectoryAngleOffset, maxTrajectoryAngleOffset);
             GameObject _bullet = Instantiate(_bulletPrefab, _bulletOrigin.position, _bulletOrigin.rotation);
             _bullet.transform.eulerAngles = new Vector3(_arm.eulerAngles.x, _arm.eulerAngles.y, _arm.eulerAngles.z + rotationZ);
