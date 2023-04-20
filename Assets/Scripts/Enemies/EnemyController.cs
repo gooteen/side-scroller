@@ -64,6 +64,7 @@ public class EnemyController : MonoBehaviour
             _sprite.Sprite.color = new Color(_sprite.Sprite.color.r, _sprite.Sprite.color.g, _sprite.Sprite.color.b, _sprite.Sprite.color.a - _fadeRate * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+        Destroy(gameObject);
     }
 
     internal IEnumerator SprinkleCoins()
@@ -85,7 +86,6 @@ public class EnemyController : MonoBehaviour
             _counter -= 1;
             yield return new WaitForSeconds(_secondsBetweenCoins);
         }
-        Destroy(gameObject);
     }
 
     internal bool DropHealer()

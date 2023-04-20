@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class LocalSoundController : MonoBehaviour
 {
-    [SerializeField] string _path;
+    [SerializeField] string _pathDefault;
     [SerializeField] private AudioClip[] _clips;
     [SerializeField] private bool _changeVolumeBasedOnPlayerDistance;
     [SerializeField] private bool _playOnStart;
     [SerializeField] private float _minSoundDistance;
     [SerializeField] private float _maxSoundDistance;
     [SerializeField] private Transform _soundCenter;
+    [SerializeField] private PlayerSettings _settings;
     private Transform _currentsoundCenter;
     private AudioSource _source;
 
     private void Awake()
     {
         _source = GetComponent<AudioSource>();
-        _clips = Resources.LoadAll<AudioClip>(_path);
         if (_soundCenter == null)
         {
             _currentsoundCenter = transform;
@@ -31,7 +31,7 @@ public class LocalSoundController : MonoBehaviour
     {
         if (_playOnStart)
         {
-            PlayRandomClip();
+            PlayRandomClip(_pathDefault);
         }
     }
 
@@ -46,18 +46,19 @@ public class LocalSoundController : MonoBehaviour
                 _source.volume = 0;
             } else if (_currentDistance <= _maxSoundDistance)
             {
-                _source.volume = 1;
+                _source.volume = 1 * _settings._soundLevelSetting;
             }
             else
             {
-                _source.volume = 1 - _currentDistance / _minSoundDistance;
+                _source.volume = (1 - (_currentDistance / _minSoundDistance)) * _settings._soundLevelSetting;
             }
         }
 
     }
 
-    public void PlayRandomClip()
+    public void PlayRandomClip(string _path)
     {
+        _clips = Resources.LoadAll<AudioClip>(_path);
         _source.PlayOneShot(_clips[Random.Range(0, _clips.Length)]);
     }
 }

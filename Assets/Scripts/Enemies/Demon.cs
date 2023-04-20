@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Demon : EnemyController
 {
     [SerializeField] private float _distanceToUnchain;
+    private LocalSoundController _controller;
     private NavMeshAgent _ai;
     private Rigidbody2D _rb;
 
@@ -17,6 +18,7 @@ public class Demon : EnemyController
         _unchained = false;
         _ai = GetComponent<NavMeshAgent>();
         _rb = GetComponent<Rigidbody2D>();
+        _controller = GetComponent<LocalSoundController>();
         _ai.updateUpAxis = false;
         _ai.updateRotation = false;
     }
@@ -45,6 +47,7 @@ public class Demon : EnemyController
         {
             if (!_isDead)
             {
+                _controller.PlayRandomClip("Sound/Demon/Damage");
                 StartCoroutine("OnImpact");
             }
         }
@@ -53,6 +56,7 @@ public class Demon : EnemyController
     internal override void Die()
     {
         base.Die();
+        _controller.PlayRandomClip("Sound/Demon/Death");
         _ai.isStopped = true;
         _rb.gravityScale = 1;
         _rb.freezeRotation = false;

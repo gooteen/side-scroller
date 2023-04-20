@@ -7,6 +7,7 @@ public class SpriteController : MonoBehaviour
     [SerializeField] private SpriteRenderer _weaponRenderer;
     private SpriteRenderer _playerRenderer;
     private Animator _anim;
+    private DuckSoundController _sound;
 
     public SpriteRenderer Renderer { get{ return _playerRenderer; } }
 
@@ -14,6 +15,7 @@ public class SpriteController : MonoBehaviour
     {
         _anim = GetComponent<Animator>();
         _playerRenderer = GetComponent<SpriteRenderer>();
+        _sound = GetComponent<DuckSoundController>();
     }
 
     public void PlayDamageImpactAnimation()
@@ -39,6 +41,7 @@ public class SpriteController : MonoBehaviour
     public void SetStretchAnimatorParameter()
     {
         _anim.SetTrigger("Stretch");
+        _sound.PlayRandomStepClip();
     }
 
     public void SetDirectionAnimatorParameter(Vector2 direction)

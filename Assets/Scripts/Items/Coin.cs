@@ -10,6 +10,7 @@ public class Coin : PoppedItem
         if (_absorbable)
         {
             RuntimeEntities.Instance.Player.AddPoint();
+            RuntimeEntities.Instance.Player.Sound.PlayRandomMoneyClip();
         }
     }
 }

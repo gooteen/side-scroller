@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private bool _isAiming;
     private bool _armVisible;
     private bool _active;
+    private bool _inLava;
     
     private float _coolDownStartTime;
     private float _currentHealth;
@@ -49,6 +50,11 @@ public class PlayerController : MonoBehaviour
         get { return _rb; }
     }
 
+    public DuckSoundController Sound
+    {
+        get { return _soundController; }
+    }
+
     public GunController Gun
     {
         get { return _gun; }
@@ -57,6 +63,12 @@ public class PlayerController : MonoBehaviour
     public SpriteController Sprite
     {
         get { return _spriteController; }
+    }
+
+    public bool InLava
+    {
+        get { return _inLava; }
+        set { _inLava = value; }
     }
 
     public int Points
@@ -210,6 +222,11 @@ public class PlayerController : MonoBehaviour
             if (_currentHealth <= 0)
             {
                 Die();
+                _soundController.PlayDeathClip();
+            }
+            else
+            {
+                _soundController.PlayRandomDamageClip();
             }
         }
     }
