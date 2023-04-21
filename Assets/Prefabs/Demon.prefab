@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ff4883cac63cc4db34fa5ba0b6edc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fadeRate: 0.5
+  _fadeRate: 1
   _sprite: {fileID: 5769125831594491485}
   _totalEnemyHealth: 5
   _coinPrefab: {fileID: 2318873716559422590, guid: 45baefed2833bb14e88e13d10774c3a8,
@@ -201,6 +201,8 @@ MonoBehaviour:
   _damageField: {fileID: 3119643853792193782}
   _healerDropProbability: 5
   _distanceToUnchain: 12
+  _tempSoundObject: {fileID: 9177229922622160430, guid: 8874338cca6175942a250191ab5f1377,
+    type: 3}
 --- !u!58 &3119643853012564904
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -351,7 +353,7 @@ MonoBehaviour:
   _changeVolumeBasedOnPlayerDistance: 1
   _playOnStart: 0
   _minSoundDistance: 20
-  _maxSoundDistance: 10
+  _maxSoundDistance: 5
   _soundCenter: {fileID: 0}
   _settings: {fileID: 11400000, guid: 7107534ad4f064d4a94db8a9e6a54e95, type: 2}
 --- !u!1 &3119643853792193782

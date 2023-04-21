@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Demon : EnemyController
 {
     [SerializeField] private float _distanceToUnchain;
+    [SerializeField] private GameObject _tempSoundObject;
     private LocalSoundController _controller;
     private NavMeshAgent _ai;
     private Rigidbody2D _rb;
@@ -56,7 +57,9 @@ public class Demon : EnemyController
     internal override void Die()
     {
         base.Die();
-        _controller.PlayRandomClip("Sound/Demon/Death");
+        GameObject _so = Instantiate(_tempSoundObject);
+        _so.transform.position = transform.position;
+        _so.GetComponent<TemporarySoundObject>().PlayRandomClip("Sound/Demon/Death");
         _ai.isStopped = true;
         _rb.gravityScale = 1;
         _rb.freezeRotation = false;
