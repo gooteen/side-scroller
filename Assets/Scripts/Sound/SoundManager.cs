@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioClip _cenaSound;
     [SerializeField] private Slider _soundSlider;
+    [SerializeField] private Slider _musicSlider;
     [SerializeField] private PlayerSettings _settings;
     private AudioSource _source;
 
@@ -29,5 +30,11 @@ public class SoundManager : MonoBehaviour
     {
         _settings._soundLevelSetting = _soundSlider.value;
         _source.volume = _settings._soundLevelSetting;
+    }
+
+    public void SaveMusicLevelSettings()
+    {
+        _settings._musicLevelSetting = _musicSlider.value;
+        _source.volume = _settings._musicLevelSetting;
     }
 }

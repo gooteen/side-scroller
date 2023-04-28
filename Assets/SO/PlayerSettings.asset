@@ -18,3 +18,4 @@ MonoBehaviour:
   _bulletDamage: 1
   _currentPlayerName: 
   _soundLevelSetting: 1
+  _musicLevelSetting: 1

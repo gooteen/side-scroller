@@ -1117,6 +1117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cenaSound: {fileID: 0}
   _soundSlider: {fileID: 172963255}
+  _musicSlider: {fileID: 1323028159}
   _settings: {fileID: 11400000, guid: 7107534ad4f064d4a94db8a9e6a54e95, type: 2}
 --- !u!1 &232225010
 GameObject:
@@ -6015,7 +6016,18 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 201330486}
+        m_MethodName: SaveMusicLevelSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1349111912
 GameObject:
   m_ObjectHideFlags: 0
@@ -9217,6 +9229,7 @@ MonoBehaviour:
   _handCursor: {fileID: 2800000, guid: 375cc8b773692de4dbff4d2ff336eb1d, type: 3}
   _hotSpot: {x: 0, y: 0}
   _soundSlider: {fileID: 172963255}
+  _musicSlider: {fileID: 1323028159}
   _settings: {fileID: 11400000, guid: 7107534ad4f064d4a94db8a9e6a54e95, type: 2}
 --- !u!1 &2097767178
 GameObject:

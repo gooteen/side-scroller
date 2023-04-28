@@ -11,4 +11,5 @@ public class PlayerSettings : ScriptableObject
     public float _bulletDamage;
     public string _currentPlayerName;
     public float _soundLevelSetting;
+    public float _musicLevelSetting;
 }

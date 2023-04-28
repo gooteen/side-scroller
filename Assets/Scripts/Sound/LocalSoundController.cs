@@ -15,6 +15,9 @@ public class LocalSoundController : MonoBehaviour
     private Transform _currentsoundCenter;
     private AudioSource _source;
 
+    public bool HasConstantVolume { get { return !_changeVolumeBasedOnPlayerDistance; } set { _changeVolumeBasedOnPlayerDistance = !value; } }
+    public float Volume { set { _source.volume = value * _settings._soundLevelSetting; } }
+
     private void Awake()
     {
         _source = GetComponent<AudioSource>();

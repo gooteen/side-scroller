@@ -9,8 +9,10 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _lifespan;
 
     [SerializeField] private GameObject _impactEffect;
+    [SerializeField] private GameObject _tempSoundObject;
 
     [SerializeField] private float _timeBeforeTrail;
+    [SerializeField] private float _bulletVolume;
     private Rigidbody2D _rb;
 
     private float _releaseTime;
@@ -39,6 +41,12 @@ public class Bullet : MonoBehaviour
     {
         GameObject _effect = Instantiate(_impactEffect);
         _effect.transform.position = collision.GetContact(0).point;
+        GameObject _so = Instantiate(_tempSoundObject);
+        TemporarySoundObject _soParams = _so.GetComponent<TemporarySoundObject>();
+        _so.transform.position = transform.position;
+        _soParams.HasConstantVolume = true;
+        _soParams.Volume = _bulletVolume;
+        _soParams.PlayRandomClip("Sound/BulletImpact");
         Destroy(gameObject);
     }
 }

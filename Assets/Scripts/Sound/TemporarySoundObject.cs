@@ -13,9 +13,7 @@ public class TemporarySoundObject : LocalSoundController
 
     private IEnumerator Vanish()
     {
-        Debug.Log("sdsdsds");
         yield return new WaitForSeconds(_secondsToDisappear);
-        Debug.Log("sdsdsds2");
         Destroy(gameObject);
     }
 }

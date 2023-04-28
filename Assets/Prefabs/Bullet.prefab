@@ -98,7 +98,10 @@ MonoBehaviour:
   _lifespan: 1
   _impactEffect: {fileID: 7263117492246906883, guid: 615613584656baa4e86f8dbfc8f1602b,
     type: 3}
+  _tempSoundObject: {fileID: 9177229922622160430, guid: 8874338cca6175942a250191ab5f1377,
+    type: 3}
   _timeBeforeTrail: 0.02
+  _bulletVolume: 0.25
 --- !u!1 &8414668972988267507
 GameObject:
   m_ObjectHideFlags: 0

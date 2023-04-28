@@ -10,6 +10,7 @@ public class MainMenuConfigurator : MonoBehaviour
     public Texture2D _handCursor;
     public Vector2 _hotSpot;
     public Slider _soundSlider;
+    public Slider _musicSlider;
     public PlayerSettings _settings;
 
     private void Awake()
@@ -41,6 +42,7 @@ public class MainMenuConfigurator : MonoBehaviour
     public void SetSliders()
     {
         _soundSlider.value = _settings._soundLevelSetting;
+        _musicSlider.value = _settings._musicLevelSetting;
     }
 
 }
