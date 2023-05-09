@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3041049194826000489}
   - component: {fileID: 3041049194826000488}
   - component: {fileID: 311917231}
-  - component: {fileID: 311917230}
   m_Layer: 11
   m_Name: LavaDamageField
   m_TagString: Untagged
@@ -74,6 +73,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 3
   _secondsBetweenBurns: 0.8
+  _maxSoundDistanceToPlayer: 5
+  _minSoundDistanceToPlayer: 20
 --- !u!82 &311917231
 AudioSource:
   m_ObjectHideFlags: 0
@@ -85,10 +86,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 0.8
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -170,19 +171,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &311917230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3041049194826000491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4f0b297f2328554abe97771c2559de9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _path: Sound/Lava
-  _clips: []
-  _changeVolumeBasedOnPlayerDistance: 1
-  _minSoundDistance: 30

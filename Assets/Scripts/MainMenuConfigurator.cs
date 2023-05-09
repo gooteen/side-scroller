@@ -45,4 +45,13 @@ public class MainMenuConfigurator : MonoBehaviour
         _musicSlider.value = _settings._musicLevelSetting;
     }
 
+    public void SaveMusicSliderValue()
+    {
+        _settings._musicLevelSetting = _musicSlider.value;
+    }
+
+    public void SaveSoundSliderValue()
+    {
+        _settings._soundLevelSetting = _soundSlider.value;
+    }
 }

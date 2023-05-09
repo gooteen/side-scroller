@@ -4,25 +4,15 @@ using UnityEngine;
 
 public class LevelMusicController : MonoBehaviour
 {
-    [SerializeField] private AudioClip _musicStart;
-    [SerializeField] private AudioClip _musicCycle;
-    [SerializeField] private PlayerSettings _settings;
-    private AudioSource _source;
-
     void Start()
     {
-        _source = GetComponent<AudioSource>();
-        _source.volume = _settings._musicLevelSetting;
-        StartCoroutine("PlayMusic");
+        StartCoroutine("LoopMusic");
     }
 
-    private IEnumerator PlayMusic()
+    private IEnumerator LoopMusic()
     {
-        _source.clip = _musicStart;
-        _source.Play();
-        yield return new WaitForSeconds(_musicStart.length - 0.4f);
-        _source.clip = _musicCycle;
-        _source.loop = true;
-        _source.Play();
+        SoundSystem.Instance.PlayMusic("hellStart");
+        yield return new WaitForSeconds(SoundSystem.Instance.GetMusicClip("hellStart").length);
+        SoundSystem.Instance.PlayMusic("hellCycle");
     }
 }

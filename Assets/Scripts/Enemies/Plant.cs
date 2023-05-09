@@ -12,14 +12,12 @@ public class Plant : EnemyController
     [SerializeField] private Transform _spawnPointRight;
     [SerializeField] private GameObject _tempSoundObject;
 
-    private LocalSoundController _controller;
     private bool _dead;
 
     internal override void Start()
     {
         base.Start();
         _dead = false;
-        _controller = GetComponent<LocalSoundController>();
     }
 
 
@@ -41,7 +39,7 @@ public class Plant : EnemyController
         {
             if (!_isDead)
             {
-                _controller.PlayRandomClip("Sound/Plant/Damage");
+                SoundSystem.Instance.PlayRandomEffect("PlantDamage");
             }
         }
     }
@@ -52,13 +50,13 @@ public class Plant : EnemyController
         _dead = true;
         GameObject _so = Instantiate(_tempSoundObject);
         _so.transform.position = transform.position;
-        _so.GetComponent<TemporarySoundObject>().PlayRandomClip("Sound/Plant/Death");
+        SoundSystem.Instance.PlayRandomEffect("PlantDeath");
     }
 
     public void SpawnProjectile()
     {
         GameObject _proj = Instantiate(_projectilePrefab);
-        _controller.PlayRandomClip("Sound/Plant/Attack");
+        SoundSystem.Instance.PlayRandomEffect("PlantAttack");
         if (!_sprite.Sprite.flipX)
         {
             _proj.transform.position = _spawnPointLeft.position;

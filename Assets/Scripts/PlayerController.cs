@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GunController _gun;
     [SerializeField] private SpriteController _spriteController;
     [SerializeField] private PlayerSettings _settings;
-    [SerializeField] private DuckSoundController _soundController;
 
     [SerializeField] private float _weaponRotationLimitAngle;
     [SerializeField] private float _groundCheckRayLength;
@@ -48,11 +47,6 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D Rigidbody
     {
         get { return _rb; }
-    }
-
-    public DuckSoundController Sound
-    {
-        get { return _soundController; }
     }
 
     public GunController Gun
@@ -222,11 +216,11 @@ public class PlayerController : MonoBehaviour
             if (_currentHealth <= 0)
             {
                 Die();
-                _soundController.PlayDeathClip();
+                SoundSystem.Instance.PlayEffect("death");
             }
             else
             {
-                _soundController.PlayRandomDamageClip();
+                SoundSystem.Instance.PlayRandomEffect("PlayerDamage");
             }
         }
     }
@@ -332,7 +326,7 @@ public class PlayerController : MonoBehaviour
         {
             _rb.AddForce(Vector2.up * _settings._jumpImpulse, ForceMode2D.Impulse);
             _spriteController.SetStretchAnimatorParameter();
-            _soundController.PlayJumpClip();
+            SoundSystem.Instance.PlayEffect("jump");
         }
     }
 

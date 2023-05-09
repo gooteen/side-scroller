@@ -7,7 +7,6 @@ public class Demon : EnemyController
 {
     [SerializeField] private float _distanceToUnchain;
     [SerializeField] private GameObject _tempSoundObject;
-    private LocalSoundController _controller;
     private NavMeshAgent _ai;
     private Rigidbody2D _rb;
 
@@ -19,7 +18,6 @@ public class Demon : EnemyController
         _unchained = false;
         _ai = GetComponent<NavMeshAgent>();
         _rb = GetComponent<Rigidbody2D>();
-        _controller = GetComponent<LocalSoundController>();
         _ai.updateUpAxis = false;
         _ai.updateRotation = false;
     }
@@ -48,7 +46,7 @@ public class Demon : EnemyController
         {
             if (!_isDead)
             {
-                _controller.PlayRandomClip("Sound/Demon/Damage");
+                SoundSystem.Instance.PlayRandomEffect("DemonDamage");
                 StartCoroutine("OnImpact");
             }
         }
@@ -57,9 +55,7 @@ public class Demon : EnemyController
     internal override void Die()
     {
         base.Die();
-        GameObject _so = Instantiate(_tempSoundObject);
-        _so.transform.position = transform.position;
-        _so.GetComponent<TemporarySoundObject>().PlayRandomClip("Sound/Demon/Death");
+        SoundSystem.Instance.PlayRandomEffect("DemonDeath");
         _ai.isStopped = true;
         _rb.gravityScale = 1;
         _rb.freezeRotation = false;
