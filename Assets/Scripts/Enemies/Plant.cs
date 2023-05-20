@@ -10,7 +10,6 @@ public class Plant : EnemyController
     [SerializeField] private float _secondsBetweenShots;
     [SerializeField] private Transform _spawnPointLeft;
     [SerializeField] private Transform _spawnPointRight;
-    [SerializeField] private GameObject _tempSoundObject;
 
     private bool _dead;
 
@@ -48,8 +47,6 @@ public class Plant : EnemyController
     {
         base.Die();
         _dead = true;
-        GameObject _so = Instantiate(_tempSoundObject);
-        _so.transform.position = transform.position;
         SoundSystem.Instance.PlayRandomEffect("PlantDeath");
     }
 

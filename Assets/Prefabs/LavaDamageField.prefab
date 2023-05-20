@@ -75,6 +75,7 @@ MonoBehaviour:
   _secondsBetweenBurns: 0.8
   _maxSoundDistanceToPlayer: 5
   _minSoundDistanceToPlayer: 20
+  _settings: {fileID: 11400000, guid: 7107534ad4f064d4a94db8a9e6a54e95, type: 2}
 --- !u!82 &311917231
 AudioSource:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class Demon : EnemyController
 {
     [SerializeField] private float _distanceToUnchain;
-    [SerializeField] private GameObject _tempSoundObject;
     private NavMeshAgent _ai;
     private Rigidbody2D _rb;
 
