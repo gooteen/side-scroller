@@ -16,8 +16,7 @@ public class SoundSystem : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        _audioSounds.volume = _settings._soundLevelSetting;
-        _audioMusic.volume = _settings._musicLevelSetting;
+        UpdateVolume();
         CollectSounds();
     }
 
@@ -29,9 +28,10 @@ public class SoundSystem : MonoBehaviour
         }
     }
 
-    void Update()
+    public void UpdateVolume()
     {
-
+        _audioSounds.volume = _settings._soundLevelSetting;
+        _audioMusic.volume = _settings._musicLevelSetting;
     }
 
     void CollectSounds()

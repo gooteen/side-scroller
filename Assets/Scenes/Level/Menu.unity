@@ -975,6 +975,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2081071381}
+        m_MethodName: SaveSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &232225010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1549,7 +1560,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -51.99933}
+  m_AnchoredPosition: {x: 0, y: -51.999268}
   m_SizeDelta: {x: -605.051, y: -340.34125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &346957730
@@ -1836,6 +1847,17 @@ MonoBehaviour:
       - m_Target: {fileID: 1908023949}
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1183972687}
+        m_MethodName: UpdateVolume
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5896,6 +5918,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2081071381}
+        m_MethodName: SaveSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1349111912
 GameObject:
   m_ObjectHideFlags: 0
@@ -8786,6 +8819,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 2081071381}
+        m_MethodName: SaveLeaderboardData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1949546387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9168,6 +9212,7 @@ MonoBehaviour:
   _soundSlider: {fileID: 172963255}
   _musicSlider: {fileID: 1323028159}
   _settings: {fileID: 11400000, guid: 7107534ad4f064d4a94db8a9e6a54e95, type: 2}
+  _leaderboard: {fileID: 11400000, guid: 37ea8dafed064194a9c320ec855a259d, type: 2}
 --- !u!1 &2097767178
 GameObject:
   m_ObjectHideFlags: 0

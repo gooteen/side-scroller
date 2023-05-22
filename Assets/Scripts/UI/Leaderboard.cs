@@ -21,6 +21,13 @@ public class LeaderboardRecord
     {
         _playerName = playerName;
     }
+
+    public LeaderboardRecord(string playerName, int playerScore, float playerTime)
+    {
+        _playerName = playerName;
+        _playerScore = playerScore;
+        _playerTime = playerTime;
+    }
 }
 
 [CreateAssetMenu(fileName = "Leaderboard", menuName = "Leaderboard")]
@@ -28,10 +35,19 @@ public class Leaderboard : ScriptableObject
 {
     [SerializeField] private List<LeaderboardRecord> _records;
 
-    
+    public List<LeaderboardRecord> Records
+    {
+        get { return _records; }
+    }
+
     public LeaderboardRecord this[string name]
     {
         get { return GetRecordByName(name); } 
+    }
+
+    public void Clear()
+    {
+        _records.Clear();
     }
     
     public LeaderboardRecord GetRecordByName(string name)
@@ -56,6 +72,11 @@ public class Leaderboard : ScriptableObject
             }
         }
         _records.Add(new LeaderboardRecord(name));
+    }
+
+    public void AddNewRecord(LeaderboardRecord record)
+    {
+        _records.Add(record);
     }
 
     public void DropRecord(LeaderboardRecord record)

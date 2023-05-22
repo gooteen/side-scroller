@@ -56,6 +56,7 @@ public class RuntimeEntities : MonoBehaviour
     {
          _leaderboard[_settings._currentPlayerName].PlayerScore = _player.Points;
          _leaderboard[_settings._currentPlayerName].PlayerTime = _player.TimeAmount;
+        SaveSystem.SaveLeaderboardData(_leaderboard);
     }
 
     public void ReloadLevel()

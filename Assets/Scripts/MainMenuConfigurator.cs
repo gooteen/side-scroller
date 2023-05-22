@@ -12,16 +12,55 @@ public class MainMenuConfigurator : MonoBehaviour
     public Slider _soundSlider;
     public Slider _musicSlider;
     public PlayerSettings _settings;
+    public Leaderboard _leaderboard;
 
     private void Awake()
     {
         SetNormalCursor();
+        LoadSettings();
+        LoadLeaderboardData();
     }
 
     public void ExitGame()
     {
+        SaveSettings();
         Application.Quit();
-        Debug.Log("exiting");
+    }
+
+    public void LoadLeaderboardData()
+    {
+        _leaderboard.Clear();
+        LeaderboardData data = SaveSystem.LoadLeaderboardData();
+        int i = 0;
+        if (data != null)
+        {
+            while (data.playerNameArray[i] != null)
+            {
+                _leaderboard.AddNewRecord(new LeaderboardRecord(data.playerNameArray[i], data.playerScoreArray[i], data.playerTimeArray[i]));
+                i++;
+            }
+        }
+    }
+
+    public void SaveLeaderboardData()
+    {
+        SaveSystem.SaveLeaderboardData(_leaderboard);
+    }
+
+    public void SaveSettings()
+    {
+        AudioSettings settings = new AudioSettings(_settings._soundLevelSetting, _settings._musicLevelSetting);
+        SaveSystem.SaveAudioSettings(settings);
+    }
+
+    public void LoadSettings()
+    {
+        AudioSettings settings = SaveSystem.LoadAudioSettings();
+        if (settings != null)
+        {
+            _settings._soundLevelSetting = settings._soundLevelSetting;
+            _settings._musicLevelSetting = settings._musicLevelSetting;
+        }
     }
 
     public void SetNormalCursor()

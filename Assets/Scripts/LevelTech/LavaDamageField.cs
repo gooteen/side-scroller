@@ -15,25 +15,29 @@ public class LavaDamageField : MonoBehaviour
     void Start()
     {
         _audio = GetComponent<AudioSource>();
+        UpdateAudioVolume();
         SoundSystem.Instance.PlayEffect("lava", _audio);
     }
 
     void Update()
     {
+        UpdateAudioVolume();
+    }
+
+    private void UpdateAudioVolume()
+    {
         float _distance = (RuntimeEntities.Instance.Player.transform.position - transform.position).magnitude;
         if (_distance < _maxSoundDistanceToPlayer)
         {
-            Debug.Log("Lava: 0");
             _audio.volume = 1 * _settings._soundLevelSetting;
-        } else if (_distance > _minSoundDistanceToPlayer)
+        }
+        else if (_distance > _minSoundDistanceToPlayer)
         {
             _audio.volume = 0;
-            Debug.Log("Lava: 1");
         }
         else if (_distance > _maxSoundDistanceToPlayer && _distance < _minSoundDistanceToPlayer)
         {
-            _audio.volume = (1 - (_distance / (_minSoundDistanceToPlayer - _maxSoundDistanceToPlayer)) * _settings._soundLevelSetting);
-            Debug.Log("Lava: changing");
+            _audio.volume = (1 - (_distance / (_minSoundDistanceToPlayer - _maxSoundDistanceToPlayer))) * _settings._soundLevelSetting;
         }
     }
 
