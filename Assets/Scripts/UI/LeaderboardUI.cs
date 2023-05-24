@@ -204,6 +204,7 @@ public class LeaderboardUI : MonoBehaviour
         _deleteButton.onClick.AddListener(delegate { _leaderboard.DropRecord(_leaderboard[recordFields.PlayerName]); });
         _deleteButton.onClick.AddListener(ClearLeaderboard);
         _deleteButton.onClick.AddListener(FillLeaderboard);
+        _deleteButton.onClick.AddListener(delegate { SaveSystem.SaveLeaderboardData(_leaderboard); });
         _deleteButton.onClick.AddListener(delegate { _deleteButton.gameObject.SetActive(false); });
         _deleteButton.onClick.AddListener(ChangeDeleteButtonStatus);
         _deleteButton.onClick.AddListener(delegate { _menuController.SetNormalCursor(); }); 
