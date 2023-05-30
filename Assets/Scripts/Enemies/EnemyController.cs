@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
 
     internal void TakeDamage()
     {
-        _currentEnemyHealth -= RuntimeEntities.Instance.Settings._bulletDamage;
+        _currentEnemyHealth -= RuntimeEntities.Instance.Settings.bulletDamage;
         _sprite.Animator.SetFloat("Health", _currentEnemyHealth);
         if (_currentEnemyHealth <= 0)
         {
@@ -60,7 +60,6 @@ public class EnemyController : MonoBehaviour
         StartCoroutine("SprinkleCoins");
         while (_sprite.Sprite.color.a >= 0.01)
         {
-            Debug.Log("DA");
             _sprite.Sprite.color = new Color(_sprite.Sprite.color.r, _sprite.Sprite.color.g, _sprite.Sprite.color.b, _sprite.Sprite.color.a - _fadeRate * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
@@ -69,29 +68,29 @@ public class EnemyController : MonoBehaviour
 
     internal IEnumerator SprinkleCoins()
     {
-        int _counter = _numberOfItemsToSprinkle;
-        while (_counter > 0)
+        int counter = _numberOfItemsToSprinkle;
+        while (counter > 0)
         {
-            GameObject _item;
+            GameObject item;
             if (DropHealer())
             {
-               _item = Instantiate(_healerPrefab);
+                item = Instantiate(_healerPrefab);
             } else
             {
-                _item = Instantiate(_coinPrefab);
+                item = Instantiate(_coinPrefab);
             }
 
-            _item.transform.position = transform.position;
-            _item.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(0.5f, 1)).normalized * _coinPushForce, ForceMode2D.Impulse);
-            _counter -= 1;
+            item.transform.position = transform.position;
+            item.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-1, 1), Random.Range(0.5f, 1)).normalized * _coinPushForce, ForceMode2D.Impulse);
+            counter -= 1;
             yield return new WaitForSeconds(_secondsBetweenCoins);
         }
     }
 
     internal bool DropHealer()
     {
-        int _param = Random.Range(0, 100);
-        if (_param <= _healerDropProbability)
+        int param = Random.Range(0, 100);
+        if (param <= _healerDropProbability)
         {
             return true;
         } else

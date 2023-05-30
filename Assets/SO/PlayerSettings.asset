@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f7ec7d60ec9e843adbc0c303bce82b, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  _playerMovementSpeedGround: 6
-  _playerMovementSpeedAir: 3
-  _jumpImpulse: 5
-  _bulletDamage: 1
-  _currentPlayerName: 
-  _soundLevelSetting: 1
-  _musicLevelSetting: 1
+  playerMovementSpeedGround: 5
+  playerMovementSpeedAir: 3
+  jumpImpulse: 5
+  bulletDamage: 1
+  currentPlayerName: "\u0447\u0432\u044F\u0447\u0441\u200B"
+  soundLevelSetting: 1
+  musicLevelSetting: 1

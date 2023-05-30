@@ -5,12 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class LeaderboardRecord
 {
-    // make the fields private later
-
-    public string _playerName;
-    public int _playerScore = 0;
-    public float _playerTime = 0;
-    public bool _currentPlayer;
+    private string _playerName;
+    private int _playerScore = 0;
+    private float _playerTime = 0;
+    private bool _currentPlayer;
 
     public string PlayerName { get { return _playerName; } set { _playerName = value; } }
     public int PlayerScore { get { return _playerScore; } set { _playerScore = value; } }
@@ -86,49 +84,49 @@ public class Leaderboard : ScriptableObject
 
     public List<LeaderboardRecord> GetRecordsListSortedByTime()
     {
-        List<LeaderboardRecord> _sortedRecords = new List<LeaderboardRecord>();
+        List<LeaderboardRecord> sortedRecords = new List<LeaderboardRecord>();
         foreach (LeaderboardRecord _rec in _records)
         {
-            _sortedRecords.Add(_rec);
+            sortedRecords.Add(_rec);
         }
 
-        for (int i = 0; i < _sortedRecords.Count - 1; i++)
+        for (int i = 0; i < sortedRecords.Count - 1; i++)
         {
-            for (int j = 0; j < _sortedRecords.Count - 1 - i; j++)
+            for (int j = 0; j < sortedRecords.Count - 1 - i; j++)
             {
-                if (_sortedRecords[j].PlayerTime >= _sortedRecords[j+1].PlayerTime)
+                if (sortedRecords[j].PlayerTime >= sortedRecords[j+1].PlayerTime)
                 {
-                    var _temp = _sortedRecords[j + 1];
-                    _sortedRecords[j + 1] = _sortedRecords[j];
-                    _sortedRecords[j] = _temp;
+                    var _temp = sortedRecords[j + 1];
+                    sortedRecords[j + 1] = sortedRecords[j];
+                    sortedRecords[j] = _temp;
                 }
             }
         }
 
-        return _sortedRecords;
+        return sortedRecords;
     }
 
     public List<LeaderboardRecord> GetRecordsListSortedByScore()
     {
-        List<LeaderboardRecord> _sortedRecords = new List<LeaderboardRecord>();
+        List<LeaderboardRecord> sortedRecords = new List<LeaderboardRecord>();
         foreach(LeaderboardRecord _rec in _records)
         {
-            _sortedRecords.Add(_rec);
+            sortedRecords.Add(_rec);
         }
 
-        for (int i = 0; i < _sortedRecords.Count - 1; i++)
+        for (int i = 0; i < sortedRecords.Count - 1; i++)
         {
-            for (int j = 0; j < _sortedRecords.Count - 1 - i; j++)
+            for (int j = 0; j < sortedRecords.Count - 1 - i; j++)
             {
-                if (_sortedRecords[j].PlayerScore <= _sortedRecords[j + 1].PlayerScore)
+                if (sortedRecords[j].PlayerScore <= sortedRecords[j + 1].PlayerScore)
                 {
-                    var _temp = _sortedRecords[j + 1];
-                    _sortedRecords[j + 1] = _sortedRecords[j];
-                    _sortedRecords[j] = _temp;
+                    var temp = sortedRecords[j + 1];
+                    sortedRecords[j + 1] = sortedRecords[j];
+                    sortedRecords[j] = temp;
                 }
             }
         }
 
-        return _sortedRecords;
+        return sortedRecords;
     }
 }

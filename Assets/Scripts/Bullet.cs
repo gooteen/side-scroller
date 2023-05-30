@@ -18,8 +18,6 @@ public class Bullet : MonoBehaviour
     
     void Start()
     {
-
-        Debug.Log("Born");
         _rb = GetComponent<Rigidbody2D>();
 
         _releaseTime = Time.time;
@@ -38,8 +36,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        GameObject _effect = Instantiate(_impactEffect);
-        _effect.transform.position = collision.GetContact(0).point;
+        GameObject effect = Instantiate(_impactEffect);
+        effect.transform.position = collision.GetContact(0).point;
         SoundSystem.Instance.PlayRandomEffect("BulletImpact");
         Destroy(gameObject);
     }

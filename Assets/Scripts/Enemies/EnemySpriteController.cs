@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemySpriteController : MonoBehaviour
 {
     public bool _updateRotation;
-    //[SerializeField] private EnemyController; _updateRotation;
     private SpriteRenderer _sprite;
     private Animator _anim;
 
@@ -49,10 +48,5 @@ public class EnemySpriteController : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void TriggerShooting()
-    {
-
     }
 }

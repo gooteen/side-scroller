@@ -20,7 +20,7 @@ public class GunController : MonoBehaviour
 
     [SerializeField] private float _timeBetweenShots;
 
-    [SerializeField] private int maxTrajectoryAngleOffset;
+    [SerializeField] private int _maxTrajectoryAngleOffset;
 
     [SerializeField] private float _releaseTime;
 
@@ -56,16 +56,16 @@ public class GunController : MonoBehaviour
         if (Time.time - _releaseTime >= _timeBetweenShots)
         {
             SoundSystem.Instance.PlayRandomEffect("Shots");
-            float rotationZ = _rand.Next(-maxTrajectoryAngleOffset, maxTrajectoryAngleOffset);
-            GameObject _bullet = Instantiate(_bulletPrefab, _bulletOrigin.position, _bulletOrigin.rotation);
-            _bullet.transform.eulerAngles = new Vector3(_arm.eulerAngles.x, _arm.eulerAngles.y, _arm.eulerAngles.z + rotationZ);
+            float rotationZ = _rand.Next(-_maxTrajectoryAngleOffset, _maxTrajectoryAngleOffset);
+            GameObject bullet = Instantiate(_bulletPrefab, _bulletOrigin.position, _bulletOrigin.rotation);
+            bullet.transform.eulerAngles = new Vector3(_arm.eulerAngles.x, _arm.eulerAngles.y, _arm.eulerAngles.z + rotationZ);
             _releaseTime = Time.time;
         } 
     }
 
-    public void TakeAwayHeat(float _amount)
+    public void TakeAwayHeat(float amount)
     {
-        _currentHeatValue -= _amount;
+        _currentHeatValue -= amount;
         if (_currentHeatValue < 0)
         {
             _currentHeatValue = 0;
@@ -77,9 +77,9 @@ public class GunController : MonoBehaviour
         }
     }
 
-    public void DecreaseHeat(float _step)
+    public void DecreaseHeat(float step)
     {
-        _currentHeatValue -= _step * Time.deltaTime;
+        _currentHeatValue -= step * Time.deltaTime;
 
         if (_currentHeatValue < 0) 
         {
@@ -98,9 +98,9 @@ public class GunController : MonoBehaviour
         UIController.Instance.UpdateHeatScaleFillAmount(_currentHeatValue / _overheatValue);
     }
 
-    public void IncreaseHeat(float _step)
+    public void IncreaseHeat(float step)
     {
-        _currentHeatValue += _step * Time.deltaTime;
+        _currentHeatValue += step * Time.deltaTime;
         if (_currentHeatValue >= _overheatValue)
         {
             _currentHeatValue = _overheatValue;
@@ -111,7 +111,6 @@ public class GunController : MonoBehaviour
             }
         }
         _rend.color = new Color(_rend.color.r, (1 - _currentHeatValue / _overheatValue), (1 - _currentHeatValue / _overheatValue));
-        Debug.Log("DAA " + _rend.color.g + " " + _rend.color.b);
         if (_rend.color.g <= 0)
         {
             _rend.color = new Color(_rend.color.r, 0, 0);

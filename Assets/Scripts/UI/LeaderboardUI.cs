@@ -29,16 +29,16 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] private PlayerSettings _playerSettngs;
 
     [SerializeField] private string _selectedPlayerName;
-    //[SerializeField] private int _selectedRecordIndex;
+
+    [SerializeField] private bool _isPlayButtonHover;
 
     private bool _isDeleteButtonHover;
     private FilteringMode _currentFilteringMode;
-    [SerializeField] private bool _isPlayButtonHover;
 
     private void Awake()
     {
         _currentFilteringMode = FilteringMode.Score;
-        _playerSettngs._currentPlayerName = null;
+        _playerSettngs.currentPlayerName = null;
         _selectedPlayerName = null;
     }
 
@@ -46,7 +46,7 @@ public class LeaderboardUI : MonoBehaviour
     {
         if (_selectedPlayerName.Length > 1)
         {
-            _playerSettngs._currentPlayerName = _selectedPlayerName;
+            _playerSettngs.currentPlayerName = _selectedPlayerName;
             SceneManager.LoadScene(1);
         }
     }
@@ -74,36 +74,36 @@ public class LeaderboardUI : MonoBehaviour
 
     public void FillLeaderboard()
     {
-        List<LeaderboardRecord> _records;
+        List<LeaderboardRecord> records;
         if (_currentFilteringMode == FilteringMode.Score)
         {
-            _records = _leaderboard.GetRecordsListSortedByScore();
+            records = _leaderboard.GetRecordsListSortedByScore();
             _scoreFilterText.color = Color.white;
             _timeFilterText.color = _filterStartColor;
         } else
         {
-            _records = _leaderboard.GetRecordsListSortedByTime();
+            records = _leaderboard.GetRecordsListSortedByTime();
             _timeFilterText.color = Color.white;
             _scoreFilterText.color = _filterStartColor;
         }
 
 
-        if (_records.Count == 0)
+        if (records.Count == 0)
         {
             _noPlayersText.SetActive(true);
         }
         else
         {
-            for (int i = 0; i < _records.Count; i++)
+            for (int i = 0; i < records.Count; i++)
             {
                 _noPlayersText.SetActive(false);
                 GameObject _newRecordElement = Instantiate(_recordPrefab, _recordConatiner);
                 LeaderboardRecordUI _recordFields = _newRecordElement.GetComponent<LeaderboardRecordUI>();
                 _recordElements.Add(_newRecordElement);
                 _recordFields.Index = i;
-                _recordFields.PlayerName = _records[i].PlayerName;
-                _recordFields.PlayerScore = _records[i].PlayerScore;
-                _recordFields.PlayerTime = _records[i].PlayerTime;
+                _recordFields.PlayerName = records[i].PlayerName;
+                _recordFields.PlayerScore = records[i].PlayerScore;
+                _recordFields.PlayerTime = records[i].PlayerTime;
 
                 //setting up the on-select action
 
@@ -155,29 +155,29 @@ public class LeaderboardUI : MonoBehaviour
 
     private void ConfigureOnSelectActionForRecord(LeaderboardRecordUI recordFields)
     {
-        EventTrigger.Entry _entrySelect = new EventTrigger.Entry();
-        _entrySelect.eventID = EventTriggerType.Select;
-        _entrySelect.callback.RemoveAllListeners();
-        _entrySelect.callback.AddListener(delegate { SetSelectedName(recordFields); });
+        EventTrigger.Entry entrySelect = new EventTrigger.Entry();
+        entrySelect.eventID = EventTriggerType.Select;
+        entrySelect.callback.RemoveAllListeners();
+        entrySelect.callback.AddListener(delegate { SetSelectedName(recordFields); });
 
-        _entrySelect.callback.AddListener(delegate { _playButton.gameObject.SetActive(true); });
-        _entrySelect.callback.AddListener(delegate { _deleteButton.gameObject.SetActive(true); });
+        entrySelect.callback.AddListener(delegate { _playButton.gameObject.SetActive(true); });
+        entrySelect.callback.AddListener(delegate { _deleteButton.gameObject.SetActive(true); });
 
-        recordFields.EventTrigger.triggers.Add(_entrySelect);
+        recordFields.EventTrigger.triggers.Add(entrySelect);
 
-        _entrySelect.callback.AddListener(delegate { SetDeleteButton(recordFields); });
+        entrySelect.callback.AddListener(delegate { SetDeleteButton(recordFields); });
     }
 
     private void ConfigureOnDeselectActionForRecord(LeaderboardRecordUI recordFields)
     {
-        EventTrigger.Entry _entryDeselect = new EventTrigger.Entry();
-        _entryDeselect.eventID = EventTriggerType.Deselect;
-        _entryDeselect.callback.RemoveAllListeners();
+        EventTrigger.Entry entryDeselect = new EventTrigger.Entry();
+        entryDeselect.eventID = EventTriggerType.Deselect;
+        entryDeselect.callback.RemoveAllListeners();
 
-        _entryDeselect.callback.AddListener(delegate { DisableDeleteButton(); });
-        _entryDeselect.callback.AddListener(delegate { DisablePlayButton(); });
+        entryDeselect.callback.AddListener(delegate { DisableDeleteButton(); });
+        entryDeselect.callback.AddListener(delegate { DisablePlayButton(); });
 
-        recordFields.EventTrigger.triggers.Add(_entryDeselect);
+        recordFields.EventTrigger.triggers.Add(entryDeselect);
     }
 
     private void DisableDeleteButton()
@@ -200,7 +200,6 @@ public class LeaderboardUI : MonoBehaviour
     private void SetDeleteButton(LeaderboardRecordUI recordFields)
     {
         _deleteButton.onClick.RemoveAllListeners();
-        //_deleteButton.onClick.RemoveAllListeners();
         _deleteButton.onClick.AddListener(delegate { _leaderboard.DropRecord(_leaderboard[recordFields.PlayerName]); });
         _deleteButton.onClick.AddListener(ClearLeaderboard);
         _deleteButton.onClick.AddListener(FillLeaderboard);
@@ -209,13 +208,6 @@ public class LeaderboardUI : MonoBehaviour
         _deleteButton.onClick.AddListener(ChangeDeleteButtonStatus);
         _deleteButton.onClick.AddListener(delegate { _menuController.SetNormalCursor(); }); 
     }
-
-    /*
-    private void ClearDeleteButton()
-    {
-
-    }
-    */
 
     private void SetSelectedName(LeaderboardRecordUI recordData)
     {

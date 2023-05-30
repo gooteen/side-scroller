@@ -20,18 +20,10 @@ public class SoundSystem : MonoBehaviour
         CollectSounds();
     }
 
-    private void Start()
-    {
-        foreach(KeyValuePair<string, AudioClip[]> elem in _soundGroups)
-        {
-            Debug.Log("folder: " + elem.Key);
-        }
-    }
-
     public void UpdateVolume()
     {
-        _audioSounds.volume = _settings._soundLevelSetting;
-        _audioMusic.volume = _settings._musicLevelSetting;
+        _audioSounds.volume = _settings.soundLevelSetting;
+        _audioMusic.volume = _settings.musicLevelSetting;
     }
 
     void CollectSounds()
@@ -56,9 +48,6 @@ public class SoundSystem : MonoBehaviour
         {
             foreach (string path in manifest.text.Split('|'))
             _soundGroups[path] = Resources.LoadAll<AudioClip>($"Sound/SoundGroups/{path}");
-        } else
-        {
-            Debug.Log("folder: null");
         }
     }
 
@@ -71,8 +60,6 @@ public class SoundSystem : MonoBehaviour
             _audioMusic.clip = clip;
             _audioMusic.Play();
         }
-        else
-            Debug.LogError($"AudioClip with name \"{name}\" does not exists");
     }
 
     public void PlayEffect(string name)
@@ -80,8 +67,6 @@ public class SoundSystem : MonoBehaviour
         AudioClip clip;
         if (_sounds.TryGetValue(name, out clip))
             _audioSounds.PlayOneShot(clip);
-        else
-            Debug.LogError($"AudioClip with name \"{name}\" does not exists");
     }
 
     public void PlayEffect(string name, AudioSource source)
@@ -89,8 +74,6 @@ public class SoundSystem : MonoBehaviour
         AudioClip clip;
         if (_sounds.TryGetValue(name, out clip))
             source.PlayOneShot(clip);
-        else
-            Debug.LogError($"AudioClip with name \"{name}\" does not exists");
     }
 
 
@@ -99,8 +82,6 @@ public class SoundSystem : MonoBehaviour
         AudioClip[] clips;
         if (_soundGroups.TryGetValue(name, out clips))
             _audioSounds.PlayOneShot(clips[Random.Range(0, clips.Length)]);
-        else
-            Debug.LogError($"AudioClipSet with name \"{name}\" does not exists");
     }
 
     public AudioClip GetMusicClip(string name)

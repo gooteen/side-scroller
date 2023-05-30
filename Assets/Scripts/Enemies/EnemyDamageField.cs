@@ -9,8 +9,8 @@ public class EnemyDamageField : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PlayerController _player = RuntimeEntities.Instance.Player;
-        _player.TakeDamage(_damage);
-        _player.PushRb(new Vector2(collision.transform.position.x, collision.transform.position.y) - collision.GetContact(0).point, _pushForce);
+        PlayerController player = RuntimeEntities.Instance.Player;
+        player.TakeDamage(_damage);
+        player.PushRb(new Vector2(collision.transform.position.x, collision.transform.position.y) - collision.GetContact(0).point, _pushForce);
     }
 }

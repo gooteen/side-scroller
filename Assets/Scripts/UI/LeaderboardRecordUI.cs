@@ -6,6 +6,10 @@ using UnityEngine.EventSystems;
 
 public class LeaderboardRecordUI : MonoBehaviour
 {
+    [SerializeField] private TMP_Text _playerNameUI;
+    [SerializeField] private TMP_Text _playerScoreUI;
+    [SerializeField] private TMP_Text _playerTimeUI;
+
     private int _index;
     private string _playerName;
     private int _playerScore;
@@ -18,10 +22,6 @@ public class LeaderboardRecordUI : MonoBehaviour
     public string PlayerName { get { return _playerName;  } set { SetPlayerName(value);  } }
     public int PlayerScore { private get { return _playerScore;  } set { SetPlayerScore(value); ;  } }
     public float PlayerTime { private get { return _playerTime;  } set { SetPlayerTime(value); ;  } }
-
-    [SerializeField] private TMP_Text _playerNameUI;
-    [SerializeField] private TMP_Text _playerScoreUI;
-    [SerializeField] private TMP_Text _playerTimeUI;
 
     private void Awake()
     {

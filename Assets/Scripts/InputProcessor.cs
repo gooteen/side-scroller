@@ -18,11 +18,6 @@ public class InputProcessor : MonoBehaviour
         _controls = new PlayerControls();
         _controls.Mouse.Enable();
         _controls.Duck.Enable();
-
-        /*
-        _controls.Mouse.RightMouseButton.performed += RightMouseButtonPressed;
-        _controls.Mouse.RightMouseButton.canceled += RightMouseButtonPressed;
-        */
     }
 
     public Vector2 GetMousePosition()
@@ -50,7 +45,6 @@ public class InputProcessor : MonoBehaviour
     {
         if (_controls.Mouse.LeftMouseButton.phase == InputActionPhase.Performed)
         {
-            Debug.Log("Shoot");
             return true;
         }
         else
@@ -58,21 +52,6 @@ public class InputProcessor : MonoBehaviour
             return false;
         }
     }
-
-    /*
-    private void IsRightMouseButtonPressed(InputAction.CallbackContext ctxt)
-    {
-        _controls.Mouse.RightMouseButton.phase = InputActionPhase.
-        if (ctxt.performed)
-        {
-            return true;
-        } else
-        {
-            return false
-
-        }
-    }
-    */
 
     public Vector2 GetMovementDirection()
     {

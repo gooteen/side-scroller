@@ -52,17 +52,17 @@ public class Plant : EnemyController
 
     public void SpawnProjectile()
     {
-        GameObject _proj = Instantiate(_projectilePrefab);
+        GameObject proj = Instantiate(_projectilePrefab);
         SoundSystem.Instance.PlayRandomEffect("PlantAttack");
         if (!_sprite.Sprite.flipX)
         {
-            _proj.transform.position = _spawnPointLeft.position;
-            _proj.GetComponent<PlantProjectile>().Speed = -_projectileSpeed;
+            proj.transform.position = _spawnPointLeft.position;
+            proj.GetComponent<PlantProjectile>().Speed = -_projectileSpeed;
         } else
         {
-            _proj.transform.position = _spawnPointRight.position;
-            _proj.GetComponent<PlantProjectile>().Speed = _projectileSpeed;
-            _proj.GetComponent<PlantProjectile>().FlipX();
+            proj.transform.position = _spawnPointRight.position;
+            proj.GetComponent<PlantProjectile>().Speed = _projectileSpeed;
+            proj.GetComponent<PlantProjectile>().FlipX();
         }
     }
 }

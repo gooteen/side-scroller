@@ -26,24 +26,23 @@ public class LavaDamageField : MonoBehaviour
 
     private void UpdateAudioVolume()
     {
-        float _distance = (RuntimeEntities.Instance.Player.transform.position - transform.position).magnitude;
-        if (_distance < _maxSoundDistanceToPlayer)
+        float distance = (RuntimeEntities.Instance.Player.transform.position - transform.position).magnitude;
+        if (distance < _maxSoundDistanceToPlayer)
         {
-            _audio.volume = 1 * _settings._soundLevelSetting;
+            _audio.volume = 1 * _settings.soundLevelSetting;
         }
-        else if (_distance > _minSoundDistanceToPlayer)
+        else if (distance > _minSoundDistanceToPlayer)
         {
             _audio.volume = 0;
         }
-        else if (_distance > _maxSoundDistanceToPlayer && _distance < _minSoundDistanceToPlayer)
+        else if (distance > _maxSoundDistanceToPlayer && distance < _minSoundDistanceToPlayer)
         {
-            _audio.volume = (1 - (_distance / (_minSoundDistanceToPlayer - _maxSoundDistanceToPlayer))) * _settings._soundLevelSetting;
+            _audio.volume = (1 - (distance / (_minSoundDistanceToPlayer - _maxSoundDistanceToPlayer))) * _settings.soundLevelSetting;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Couroutine started " + collision.gameObject);
         RuntimeEntities.Instance.Player.InLava = true;
 
         StartCoroutine("InflictLavaDamage");

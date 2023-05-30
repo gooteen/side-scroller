@@ -114,7 +114,6 @@ public class PlayerController : MonoBehaviour
         {
             _isJumping = true;
         }
-
         
         if (_arm.localEulerAngles.z < 90 || (_arm.localEulerAngles.z > 270 && _arm.localEulerAngles.z < 360))
         {
@@ -183,7 +182,6 @@ public class PlayerController : MonoBehaviour
             if (!_isShooting)
             {
                 _gun.DecreaseHeat(_heatDownStepPerFrame);
-                Debug.Log("DECREASE!!");
             }
 
             Move();
@@ -249,7 +247,6 @@ public class PlayerController : MonoBehaviour
         UIController.Instance.StartCoroutine("SpellDeathMessage");
         UIController.Instance.ShowButtons(0);
         UIController.Instance.SetNormalPointer();
-        //replace the crosshair with a normal pointer here
     }
 
     private void FixedUpdate()
@@ -316,15 +313,13 @@ public class PlayerController : MonoBehaviour
     {
         _arm.localRotation = Quaternion.AngleAxis(GetRotationAngle(), Vector3.forward);
         SetDirectionOfAim();
-        Debug.Log("EULER: " + _arm.localEulerAngles.z);
-        Debug.Log("Mouse Pos: " + InputProcessor.Instance.GetMousePosition());
     }
 
     private void Jump()
     {
         if (InputProcessor.Instance.JumpButtonPressed())
         {
-            _rb.AddForce(Vector2.up * _settings._jumpImpulse, ForceMode2D.Impulse);
+            _rb.AddForce(Vector2.up * _settings.jumpImpulse, ForceMode2D.Impulse);
             _spriteController.SetStretchAnimatorParameter();
             SoundSystem.Instance.PlayEffect("jump");
         }
@@ -336,15 +331,14 @@ public class PlayerController : MonoBehaviour
         
         if (_direction.magnitude != 0)
         {
-            Debug.Log("must move");
             if (OnTheGround())
             {
-                _rb.velocity = new Vector2(_direction.x * _settings._playerMovementSpeedGround, _rb.velocity.y);
+                _rb.velocity = new Vector2(_direction.x * _settings.playerMovementSpeedGround, _rb.velocity.y);
             } else
             {
                 if (!_isAiming)
                 {
-                    _rb.velocity = new Vector2(_direction.x * _settings._playerMovementSpeedGround, _rb.velocity.y);
+                    _rb.velocity = new Vector2(_direction.x * _settings.playerMovementSpeedGround, _rb.velocity.y);
                 }
             }
             if (!_armVisible)
@@ -369,15 +363,12 @@ public class PlayerController : MonoBehaviour
         }
         _spriteController.SetDirectionAnimatorParameter(_direction);
         _spriteController.SetYVelocityAnimatorParameter(_rb.velocity.y);
-        //_rb.AddForce(_direction * _walkSpeed, ForceMode2D.Force);
     }
 
     private void SetDirectionOfAim()
     {
-        Debug.Log($"check! mouse: {RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x}, character: {transform.position.x}");
         if (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x < transform.position.x)
         {
-            Debug.Log("check: " + (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x < transform.position.x));
             if (_isFacingRight)
             {
                 ChangeSide();
@@ -397,7 +388,6 @@ public class PlayerController : MonoBehaviour
 
         else if (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x >= transform.position.x)
         {
-            Debug.Log("check: " + (RuntimeEntities.Instance.Camera.ScreenToWorldPoint(InputProcessor.Instance.GetMousePosition()).x > transform.position.x));
             if (!_isFacingRight)
             {
                 ChangeSide();
@@ -419,18 +409,17 @@ public class PlayerController : MonoBehaviour
     private bool OnTheGround()
     {
         Debug.DrawRay(_raycastOrigin.position, Vector2.down * _groundCheckRayLength, Color.red);
-        bool _onTheGround = Physics2D.Raycast(_raycastOrigin.position, Vector2.down, _groundCheckRayLength, LayerMask.GetMask("Ground"));
-        _spriteController.SetOnTheGroundAnimatorParameter(_onTheGround);
-        Debug.Log("ontheground:"  + _onTheGround);
-        if (_isJumping == true && _onTheGround == true)
+        bool onTheGround = Physics2D.Raycast(_raycastOrigin.position, Vector2.down, _groundCheckRayLength, LayerMask.GetMask("Ground"));
+        _spriteController.SetOnTheGroundAnimatorParameter(onTheGround);
+        if (_isJumping == true && onTheGround == true)
         {
             _isJumping = false;
             _spriteController.SetStretchAnimatorParameter();
-        } else if (_onTheGround == false )
+        } else if (onTheGround == false )
         {
             _isJumping = true;
         }
-        return _onTheGround;
+        return onTheGround;
     }
 
     private void ChangeSide()
@@ -443,9 +432,8 @@ public class PlayerController : MonoBehaviour
 
     private float GetRotationAngle()
     {
-        Vector2 _dir = InputProcessor.Instance.GetMousePosition() - new Vector2(RuntimeEntities.Instance.Camera.WorldToScreenPoint(_arm.position).x, RuntimeEntities.Instance.Camera.WorldToScreenPoint(_arm.position).y);
-        float _angle = Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg;
-        Debug.Log("angle: " + _angle);
-        return _angle;
+        Vector2 dir = InputProcessor.Instance.GetMousePosition() - new Vector2(RuntimeEntities.Instance.Camera.WorldToScreenPoint(_arm.position).x, RuntimeEntities.Instance.Camera.WorldToScreenPoint(_arm.position).y);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        return angle;
     }
 }

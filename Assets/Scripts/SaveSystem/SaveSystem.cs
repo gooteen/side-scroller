@@ -26,7 +26,6 @@ public static class SaveSystem
             return settings;
         } else
         {
-            Debug.LogError("File does not exist at the path specified");
             return null;
         }
     }
@@ -54,7 +53,6 @@ public static class SaveSystem
         }
         else
         {
-            Debug.LogError("File does not exist at the path specified");
             return null;
         }
     }

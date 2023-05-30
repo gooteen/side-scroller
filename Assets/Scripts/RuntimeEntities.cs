@@ -54,8 +54,8 @@ public class RuntimeEntities : MonoBehaviour
 
     public void UpdatePlayerScore()
     {
-         _leaderboard[_settings._currentPlayerName].PlayerScore = _player.Points;
-         _leaderboard[_settings._currentPlayerName].PlayerTime = _player.TimeAmount;
+         _leaderboard[_settings.currentPlayerName].PlayerScore = _player.Points;
+         _leaderboard[_settings.currentPlayerName].PlayerTime = _player.TimeAmount;
         SaveSystem.SaveLeaderboardData(_leaderboard);
     }
 

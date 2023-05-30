@@ -5,12 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class AudioSettings
 {
-    public float _soundLevelSetting;
-    public float _musicLevelSetting;
+    public float soundLevelSetting;
+    public float musicLevelSetting;
 
     public AudioSettings(float soundLevel, float musicLevel)
     {
-        _soundLevelSetting = soundLevel;
-        _musicLevelSetting = musicLevel;
+        soundLevelSetting = soundLevel;
+        musicLevelSetting = musicLevel;
     }
 }
