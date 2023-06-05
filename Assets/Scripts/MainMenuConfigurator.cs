@@ -49,8 +49,8 @@ public class MainMenuConfigurator : MonoBehaviour
 
     public void SaveSettings()
     {
-        AudioSettings settings = new AudioSettings(this.settings.soundLevelSetting, this.settings.musicLevelSetting);
-        SaveSystem.SaveAudioSettings(settings);
+        AudioSettings audioSettings = new AudioSettings(settings.soundLevelSetting, settings.musicLevelSetting);
+        SaveSystem.SaveAudioSettings(audioSettings);
     }
 
     public void LoadSettings()

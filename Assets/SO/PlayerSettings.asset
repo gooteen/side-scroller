@@ -16,6 +16,6 @@ MonoBehaviour:
   playerMovementSpeedAir: 3
   jumpImpulse: 5
   bulletDamage: 1
-  currentPlayerName: "\u0447\u0432\u044F\u0447\u0441\u200B"
-  soundLevelSetting: 1
-  musicLevelSetting: 1
+  currentPlayerName: 
+  soundLevelSetting: 0.65777147
+  musicLevelSetting: 0.65777147
